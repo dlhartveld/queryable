@@ -1,4 +1,4 @@
-package com.hartveld.commons.queryable;
+package com.hartveld.queryable;
 
 import java.util.Comparator;
 import java.util.Optional;

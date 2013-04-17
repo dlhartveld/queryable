@@ -1,9 +1,9 @@
-package com.hartveld.commons.queryable.interactive;
+package com.hartveld.queryable.reactive;
 
-import com.hartveld.commons.queryable.DoubleQueryable;
-import com.hartveld.commons.queryable.IntQueryable;
-import com.hartveld.commons.queryable.LongQueryable;
-import com.hartveld.commons.queryable.Queryable;
+import com.hartveld.queryable.DoubleQueryable;
+import com.hartveld.queryable.IntQueryable;
+import com.hartveld.queryable.LongQueryable;
+import com.hartveld.queryable.Queryable;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.function.BiConsumer;
@@ -19,46 +19,46 @@ import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
 import java.util.stream.Collector;
 
-public interface Enumerable<T> extends Queryable<T> {
+public interface Observable<T> extends Queryable<T> {
 
 	@Override
-	Enumerable<T> filter(Predicate<? super T> predicate);
+	Observable<T> filter(Predicate<? super T> predicate);
 
 	@Override
-	<R> Enumerable<R> map(Function<? super T, ? extends R> mapper);
+	<R> Observable<R> map(Function<? super T, ? extends R> mapper);
 	@Override
-	IntEnumerable mapToInt(ToIntFunction<? super T> mapper);
+	IntObservable mapToInt(ToIntFunction<? super T> mapper);
 	@Override
-	LongEnumerable mapToLong(ToLongFunction<? super T> mapper);
+	LongObservable mapToLong(ToLongFunction<? super T> mapper);
 	@Override
-	DoubleEnumerable mapToDouble(ToDoubleFunction<? super T> mapper);
+	DoubleObservable mapToDouble(ToDoubleFunction<? super T> mapper);
 
 	@Override
-	<R> Enumerable<R> flatMap(Function<? super T, ? extends Queryable<? extends R>> mapper);
+	<R> Observable<R> flatMap(Function<? super T, ? extends Queryable<? extends R>> mapper);
 	@Override
-	IntEnumerable flatMapToInt(Function<? super T, ? extends IntQueryable> mapper);
+	IntObservable flatMapToInt(Function<? super T, ? extends IntQueryable> mapper);
 	@Override
-	LongEnumerable flatMapToLong(Function<? super T, ? extends LongQueryable> mapper);
+	LongObservable flatMapToLong(Function<? super T, ? extends LongQueryable> mapper);
 	@Override
-	DoubleEnumerable flatMapToDouble(Function<? super T, ? extends DoubleQueryable> mapper);
+	DoubleObservable flatMapToDouble(Function<? super T, ? extends DoubleQueryable> mapper);
 
 	@Override
-	Enumerable<T> distinct();
+	Observable<T> distinct();
 
 	@Override
-	Enumerable<T> sorted();
+	Observable<T> sorted();
 	@Override
-	Enumerable<T> sorted(Comparator<? super T> comparator);
+	Observable<T> sorted(Comparator<? super T> comparator);
 
 	@Override
-	Enumerable<T> limit(long maxSize);
+	Observable<T> limit(long maxSize);
 	@Override
-	Enumerable<T> substream(long startingOffset);
+	Observable<T> substream(long startingOffset);
 	@Override
-	Enumerable<T> substream(long startingOffset, long endingOffset);
+	Observable<T> substream(long startingOffset, long endingOffset);
 
 	@Override
-	Enumerable<T> peek(Consumer<? super T> consumer);
+	Observable<T> peek(Consumer<? super T> consumer);
 
 	@Override
 	boolean anyMatch(Predicate<? super T> predicate);

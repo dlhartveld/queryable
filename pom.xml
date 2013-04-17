@@ -3,10 +3,10 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.hartveld.commons.queryable</groupId>
-	<artifactId>hartveld-commons-queryable</artifactId>
+	<groupId>com.hartveld.queryable</groupId>
+	<artifactId>queryable</artifactId>
 	<version>0.1-SNAPSHOT</version>
-	<name>Hartveld.COM - Commons - Queryable</name>
+	<name>Hartveld.COM - Queryable</name>
 
 	<properties>
 		<version.java>1.8</version.java>
