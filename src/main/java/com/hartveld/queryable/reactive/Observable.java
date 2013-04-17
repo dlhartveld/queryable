@@ -21,6 +21,13 @@ import java.util.stream.Collector;
 
 public interface Observable<T> extends Queryable<T> {
 
+	AutoCloseable subscribe(Consumer<? extends T> onNext);
+	AutoCloseable subscribe(Consumer<? extends T> onNext, Runnable onCompleted);
+	AutoCloseable subscribe(Consumer<? extends T> onNext, Consumer<Exception> onError);
+	AutoCloseable subscribe(Consumer<? extends T> onNext, Consumer<Exception> onError, Runnable onCompleted);
+
+	AutoCloseable subscribe(Observer<? extends T> observer);
+
 	@Override
 	Observable<T> filter(Predicate<? super T> predicate);
 
