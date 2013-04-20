@@ -22,47 +22,29 @@
 
 package com.hartveld.queryable.interactive;
 
-import com.hartveld.queryable.DoubleQueryable;
-import com.hartveld.queryable.IntQueryable;
-import com.hartveld.queryable.LongQueryable;
 import com.hartveld.queryable.Queryable;
 import java.util.Comparator;
-import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.function.IntFunction;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-import java.util.function.ToDoubleFunction;
-import java.util.function.ToIntFunction;
-import java.util.function.ToLongFunction;
 import java.util.stream.Collector;
 
 public interface Enumerable<T> extends Queryable<T> {
+
+	void forEach(Consumer<? super T> consumer);
 
 	@Override
 	Enumerable<T> filter(Predicate<? super T> predicate);
 
 	@Override
 	<R> Enumerable<R> map(Function<? super T, ? extends R> mapper);
-	@Override
-	IntEnumerable mapToInt(ToIntFunction<? super T> mapper);
-	@Override
-	LongEnumerable mapToLong(ToLongFunction<? super T> mapper);
-	@Override
-	DoubleEnumerable mapToDouble(ToDoubleFunction<? super T> mapper);
 
 	@Override
 	<R> Enumerable<R> flatMap(Function<? super T, ? extends Queryable<? extends R>> mapper);
-	@Override
-	IntEnumerable flatMapToInt(Function<? super T, ? extends IntQueryable> mapper);
-	@Override
-	LongEnumerable flatMapToLong(Function<? super T, ? extends LongQueryable> mapper);
-	@Override
-	DoubleEnumerable flatMapToDouble(Function<? super T, ? extends DoubleQueryable> mapper);
 
 	@Override
 	Enumerable<T> distinct();
@@ -83,40 +65,43 @@ public interface Enumerable<T> extends Queryable<T> {
 	Enumerable<T> peek(Consumer<? super T> consumer);
 
 	@Override
-	boolean anyMatch(Predicate<? super T> predicate);
+	Enumerable<Boolean> anyMatch(Predicate<? super T> predicate);
 	@Override
-	boolean allMatch(Predicate<? super T> predicate);
+	Enumerable<Boolean> allMatch(Predicate<? super T> predicate);
 	@Override
-	boolean noneMatch(Predicate<? super T> predicate);
+	Enumerable<Boolean> noneMatch(Predicate<? super T> predicate);
 
 	@Override
-	long count();
+	Enumerable<Long> count();
 
 	@Override
-	Object[] toArray();
+	Enumerable<T> reduce(T identity, BinaryOperator<T> accumulator);
 	@Override
-	<A> A[] toArray(IntFunction<A[]> generator);
+	Enumerable<T> reduce(BinaryOperator<T> accumulator);
+	@Override
+	<U> Enumerable<U> reduce(U identity, BiFunction<U, ? super T, U> accumulator, BinaryOperator<U> combiner);
 
 	@Override
-	T reduce(T identity, BinaryOperator<T> accumulator);
+	<R> Enumerable<R> collect(Supplier<R> resultFactory, BiConsumer<R, ? super T> accumulator, BiConsumer<R, R> combiner);
 	@Override
-	Optional<T> reduce(BinaryOperator<T> accumulator);
-	@Override
-	<U> U reduce(U identity, BiFunction<U, ? super T, U> accumulator, BinaryOperator<U> combiner);
+	<R> Enumerable<R> collect(Collector<? super T, R> collector);
 
 	@Override
-	<R> R collect(Supplier<R> resultFactory, BiConsumer<R, ? super T> accumulator, BiConsumer<R, R> combiner);
+	Enumerable<T> max(Comparator<? super T> comparator);
 	@Override
-	<R> R collect(Collector<? super T, R> collector);
+	Enumerable<T> min(Comparator<? super T> comparator);
 
 	@Override
-	Optional<T> max(Comparator<? super T> comparator);
+	Enumerable<T> findFirst();
 	@Override
-	Optional<T> min(Comparator<? super T> comparator);
+	Enumerable<T> findAny();
 
 	@Override
-	Optional<T> findFirst();
+	Enumerable<T> merge(Queryable<T> other);
+	Enumerable<T> merge(Enumerable<T> other);
+
 	@Override
-	Optional<T> findAny();
+	Enumerable<T> zip(Queryable<T> other);
+	Enumerable<T> zip(Enumerable<T> other);
 
 }

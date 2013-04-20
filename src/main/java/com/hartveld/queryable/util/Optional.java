@@ -23,13 +23,106 @@
 package com.hartveld.queryable.util;
 
 import com.hartveld.queryable.Queryable;
+import com.hartveld.queryable.interactive.Enumerable;
+import com.hartveld.queryable.reactive.Observable;
+import java.util.Comparator;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+import java.util.stream.Collector;
 
 public interface Optional<T> extends Queryable<T> {
 
 	boolean hasValue();
 	T getValue() throws Exception;
 
-	public static interface Some<T> extends Optional<T> { }
-	public static interface None<T> extends Optional<T> { }
+	@Override
+	Optional<T> filter(Predicate<? super T> predicate);
+
+	@Override
+	<R> Optional<R> map(Function<? super T, ? extends R> mapper);
+
+	@Override
+	<R> Optional<R> flatMap(Function<? super T, ? extends Queryable<? extends R>> mapper);
+
+	@Override
+	Optional<T> distinct();
+
+	@Override
+	Optional<T> sorted();
+	@Override
+	Optional<T> sorted(Comparator<? super T> comparator);
+
+	@Override
+	Optional<T> limit(long maxSize);
+	@Override
+	Optional<T> substream(long startingOffset);
+	@Override
+	Optional<T> substream(long startingOffset, long endingOffset);
+
+	@Override
+	Optional<T> peek(Consumer<? super T> consumer);
+
+	@Override
+	Optional<Boolean> anyMatch(Predicate<? super T> predicate);
+	@Override
+	Optional<Boolean> allMatch(Predicate<? super T> predicate);
+	@Override
+	Optional<Boolean> noneMatch(Predicate<? super T> predicate);
+
+	@Override
+	Optional<Long> count();
+
+	@Override
+	Optional<T> reduce(T identity, BinaryOperator<T> accumulator);
+	@Override
+	Optional<T> reduce(BinaryOperator<T> accumulator);
+	@Override
+	<U> Optional<U> reduce(U identity, BiFunction<U, ? super T, U> accumulator, BinaryOperator<U> combiner);
+
+	@Override
+	<R> Optional<R> collect(Supplier<R> resultFactory, BiConsumer<R, ? super T> accumulator, BiConsumer<R, R> combiner);
+	@Override
+	<R> Optional<R> collect(Collector<? super T, R> collector);
+
+	@Override
+	Optional<T> max(Comparator<? super T> comparator);
+	@Override
+	Optional<T> min(Comparator<? super T> comparator);
+
+	@Override
+	Optional<T> findFirst();
+	@Override
+	Optional<T> findAny();
+
+	Optional<T> merge(Optional<T> other);
+	Optional<T> zip(Optional<T> other);
+
+	@Override
+	Enumerable<T> asEnumerable();
+	@Override
+	Observable<T> asObservable();
+
+	public static interface Some<T> extends Optional<T> {
+
+		@Override
+		default boolean hasValue() {
+			return true;
+		}
+
+	}
+
+	public static interface None<T> extends Optional<T> {
+
+		@Override
+		default boolean hasValue() {
+			return true;
+		}
+
+	}
 
 }

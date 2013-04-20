@@ -22,23 +22,15 @@
 
 package com.hartveld.queryable.reactive;
 
-import com.hartveld.queryable.DoubleQueryable;
-import com.hartveld.queryable.IntQueryable;
-import com.hartveld.queryable.LongQueryable;
 import com.hartveld.queryable.Queryable;
 import java.util.Comparator;
-import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.function.IntFunction;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-import java.util.function.ToDoubleFunction;
-import java.util.function.ToIntFunction;
-import java.util.function.ToLongFunction;
 import java.util.stream.Collector;
 
 public interface Observable<T> extends Queryable<T> {
@@ -50,26 +42,17 @@ public interface Observable<T> extends Queryable<T> {
 
 	AutoCloseable subscribe(Observer<? extends T> observer);
 
+	// Problematic, because this must be Observable<Observable<T>>, which can only be checked at runtime.
+	Observable<T> switchToNext();
+
 	@Override
 	Observable<T> filter(Predicate<? super T> predicate);
 
 	@Override
 	<R> Observable<R> map(Function<? super T, ? extends R> mapper);
-	@Override
-	IntObservable mapToInt(ToIntFunction<? super T> mapper);
-	@Override
-	LongObservable mapToLong(ToLongFunction<? super T> mapper);
-	@Override
-	DoubleObservable mapToDouble(ToDoubleFunction<? super T> mapper);
 
 	@Override
 	<R> Observable<R> flatMap(Function<? super T, ? extends Queryable<? extends R>> mapper);
-	@Override
-	IntObservable flatMapToInt(Function<? super T, ? extends IntQueryable> mapper);
-	@Override
-	LongObservable flatMapToLong(Function<? super T, ? extends LongQueryable> mapper);
-	@Override
-	DoubleObservable flatMapToDouble(Function<? super T, ? extends DoubleQueryable> mapper);
 
 	@Override
 	Observable<T> distinct();
@@ -90,40 +73,43 @@ public interface Observable<T> extends Queryable<T> {
 	Observable<T> peek(Consumer<? super T> consumer);
 
 	@Override
-	boolean anyMatch(Predicate<? super T> predicate);
+	Observable<Boolean> anyMatch(Predicate<? super T> predicate);
 	@Override
-	boolean allMatch(Predicate<? super T> predicate);
+	Observable<Boolean> allMatch(Predicate<? super T> predicate);
 	@Override
-	boolean noneMatch(Predicate<? super T> predicate);
+	Observable<Boolean> noneMatch(Predicate<? super T> predicate);
 
 	@Override
-	long count();
+	Observable<Long> count();
 
 	@Override
-	Object[] toArray();
+	Observable<T> reduce(T identity, BinaryOperator<T> accumulator);
 	@Override
-	<A> A[] toArray(IntFunction<A[]> generator);
+	Observable<T> reduce(BinaryOperator<T> accumulator);
+	@Override
+	<U> Observable<U> reduce(U identity, BiFunction<U, ? super T, U> accumulator, BinaryOperator<U> combiner);
 
 	@Override
-	T reduce(T identity, BinaryOperator<T> accumulator);
+	<R> Observable<R> collect(Supplier<R> resultFactory, BiConsumer<R, ? super T> accumulator, BiConsumer<R, R> combiner);
 	@Override
-	Optional<T> reduce(BinaryOperator<T> accumulator);
-	@Override
-	<U> U reduce(U identity, BiFunction<U, ? super T, U> accumulator, BinaryOperator<U> combiner);
+	<R> Observable<R> collect(Collector<? super T, R> collector);
 
 	@Override
-	<R> R collect(Supplier<R> resultFactory, BiConsumer<R, ? super T> accumulator, BiConsumer<R, R> combiner);
+	Observable<T> max(Comparator<? super T> comparator);
 	@Override
-	<R> R collect(Collector<? super T, R> collector);
+	Observable<T> min(Comparator<? super T> comparator);
 
 	@Override
-	Optional<T> max(Comparator<? super T> comparator);
+	Observable<T> findFirst();
 	@Override
-	Optional<T> min(Comparator<? super T> comparator);
+	Observable<T> findAny();
 
 	@Override
-	Optional<T> findFirst();
+	Observable<T> merge(Queryable<T> other);
+	Observable<T> merge(Observable<T> other);
+
 	@Override
-	Optional<T> findAny();
+	Observable<T> zip(Queryable<T> other);
+	Observable<T> zip(Observable<T> other);
 
 }
