@@ -22,8 +22,6 @@
 
 package com.hartveld.queryable;
 
-import com.hartveld.queryable.interactive.Enumerable;
-import com.hartveld.queryable.reactive.Observable;
 import java.util.Comparator;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
@@ -34,7 +32,7 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
 
-public interface Queryable<T> {
+public interface Queryable<T> extends Convertable<T> {
 
 	Queryable<T> filter(Predicate<? super T> predicate);
 
@@ -74,8 +72,5 @@ public interface Queryable<T> {
 
 	Queryable<T> merge(Queryable<T> other);
 	Queryable<T> zip(Queryable<T> other);
-
-	Enumerable<T> asEnumerable();
-	Observable<T> asObservable();
 
 }
