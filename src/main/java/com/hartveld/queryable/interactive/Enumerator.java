@@ -20,14 +20,10 @@
  * SOFTWARE.
  */
 
-package com.hartveld.queryable.reactive;
+package com.hartveld.queryable.interactive;
 
-public interface Observer<T> {
+import java.util.Iterator;
 
-	void onNext(T value);
-
-	void onError(Exception exception);
-
-	void onCompleted();
+public interface Enumerator<T> extends Iterator<T> {
 
 }

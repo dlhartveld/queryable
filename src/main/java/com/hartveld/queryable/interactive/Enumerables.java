@@ -20,14 +20,20 @@
  * SOFTWARE.
  */
 
-package com.hartveld.queryable.reactive;
+package com.hartveld.queryable.interactive;
 
-public interface Observer<T> {
+import org.apache.commons.lang.NotImplementedException;
 
-	void onNext(T value);
+public class Enumerables {
 
-	void onError(Exception exception);
+	public static <T> Enumerable<T> empty() {
+		throw new NotImplementedException();
+	}
 
-	void onCompleted();
+	public static <T> Enumerable<T> single(final T value) {
+		throw new NotImplementedException();
+	}
+
+	private Enumerables() { }
 
 }

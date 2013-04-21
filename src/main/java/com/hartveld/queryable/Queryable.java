@@ -22,55 +22,22 @@
 
 package com.hartveld.queryable;
 
-import java.util.Comparator;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.function.Supplier;
-import java.util.stream.Collector;
 
-public interface Queryable<T> extends Convertable<T> {
+public interface Queryable<T> extends Monad<T>, Convertable<T> {
 
-	Queryable<T> filter(Predicate<? super T> predicate);
+	@Override
+	<R> Queryable<R> flatMap(Function<? super T, ? extends Monad<? extends R>> mapper);
 
 	<R> Queryable<R> map(Function<? super T, ? extends R> mapper);
 
-	<R> Queryable<R> flatMap(Function<? super T, ? extends Queryable<? extends R>> mapper);
+	Queryable<T> reduce(T identity, BinaryOperator<T> accumulator);
 
-	Queryable<T> distinct();
-
-	Queryable<T> sorted();
-	Queryable<T> sorted(Comparator<? super T> comparator);
-
-	Queryable<T> limit(long maxSize);
-	Queryable<T> substream(long startingOffset);
-	Queryable<T> substream(long startingOffset, long endingOffset);
+	Queryable<T> filter(Predicate<? super T> predicate);
 
 	Queryable<T> peek(Consumer<? super T> consumer);
-
-	Queryable<Boolean> anyMatch(Predicate<? super T> predicate);
-	Queryable<Boolean> allMatch(Predicate<? super T> predicate);
-	Queryable<Boolean> noneMatch(Predicate<? super T> predicate);
-
-	Queryable<Long> count();
-
-	Queryable<T> reduce(T identity, BinaryOperator<T> accumulator);
-	Queryable<T> reduce(BinaryOperator<T> accumulator);
-	<U> Queryable<U> reduce(U identity, BiFunction<U, ? super T, U> accumulator, BinaryOperator<U> combiner);
-
-	<R> Queryable<R> collect(Supplier<R> resultFactory, BiConsumer<R, ? super T> accumulator, BiConsumer<R, R> combiner);
-	<R> Queryable<R> collect(Collector<? super T, R> collector);
-
-	Queryable<T> max(Comparator<? super T> comparator);
-	Queryable<T> min(Comparator<? super T> comparator);
-
-	Queryable<T> findFirst();
-	Queryable<T> findAny();
-
-	Queryable<T> merge(Queryable<T> other);
-	Queryable<T> zip(Queryable<T> other);
 
 }

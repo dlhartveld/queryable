@@ -22,12 +22,18 @@
 
 package com.hartveld.queryable.reactive;
 
-public interface Observer<T> {
+import org.apache.commons.lang.NotImplementedException;
 
-	void onNext(T value);
+public class Observables {
 
-	void onError(Exception exception);
+	public static <T> Observable<T> empty() {
+		throw new NotImplementedException();
+	}
 
-	void onCompleted();
+	public static <T> Observable<T> single(final T value) {
+		throw new NotImplementedException();
+	}
+
+	private Observables() { }
 
 }

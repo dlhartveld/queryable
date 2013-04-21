@@ -22,94 +22,46 @@
 
 package com.hartveld.queryable.reactive;
 
+import com.hartveld.queryable.Monad;
 import com.hartveld.queryable.Queryable;
-import java.util.Comparator;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.function.Supplier;
-import java.util.stream.Collector;
 
 public interface Observable<T> extends Queryable<T> {
 
-	AutoCloseable subscribe(Consumer<? extends T> onNext);
-	AutoCloseable subscribe(Consumer<? extends T> onNext, Runnable onCompleted);
-	AutoCloseable subscribe(Consumer<? extends T> onNext, Consumer<Exception> onError);
+	default AutoCloseable subscribe(Consumer<? extends T> onNext) {
+		return subscribe(onNext, ex ->  { }, () -> { });
+	}
+
+	default AutoCloseable subscribe(Consumer<? extends T> onNext, Runnable onCompleted) {
+		return subscribe(onNext, ex -> { }, onCompleted);
+	}
+
+	default AutoCloseable subscribe(Consumer<? extends T> onNext, Consumer<Exception> onError) {
+		return subscribe(onNext, onError, () -> { });
+	}
+
 	AutoCloseable subscribe(Consumer<? extends T> onNext, Consumer<Exception> onError, Runnable onCompleted);
 
-	AutoCloseable subscribe(Observer<? extends T> observer);
-
-	// Problematic, because this must be Observable<Observable<T>>, which can only be checked at runtime.
-	Observable<T> switchToNext();
+	default AutoCloseable subscribe(final Observer<? super T> observer) {
+		return subscribe(observer::onNext, observer::onError, observer::onCompleted);
+	}
 
 	@Override
-	Observable<T> filter(Predicate<? super T> predicate);
+	<R> Observable<R> flatMap(Function<? super T, ? extends Monad<? extends R>> mapper);
 
 	@Override
 	<R> Observable<R> map(Function<? super T, ? extends R> mapper);
 
 	@Override
-	<R> Observable<R> flatMap(Function<? super T, ? extends Queryable<? extends R>> mapper);
+	Observable<T> reduce(T identity, BinaryOperator<T> accumulator);
 
 	@Override
-	Observable<T> distinct();
-
-	@Override
-	Observable<T> sorted();
-	@Override
-	Observable<T> sorted(Comparator<? super T> comparator);
-
-	@Override
-	Observable<T> limit(long maxSize);
-	@Override
-	Observable<T> substream(long startingOffset);
-	@Override
-	Observable<T> substream(long startingOffset, long endingOffset);
+	Observable<T> filter(Predicate<? super T> predicate);
 
 	@Override
 	Observable<T> peek(Consumer<? super T> consumer);
-
-	@Override
-	Observable<Boolean> anyMatch(Predicate<? super T> predicate);
-	@Override
-	Observable<Boolean> allMatch(Predicate<? super T> predicate);
-	@Override
-	Observable<Boolean> noneMatch(Predicate<? super T> predicate);
-
-	@Override
-	Observable<Long> count();
-
-	@Override
-	Observable<T> reduce(T identity, BinaryOperator<T> accumulator);
-	@Override
-	Observable<T> reduce(BinaryOperator<T> accumulator);
-	@Override
-	<U> Observable<U> reduce(U identity, BiFunction<U, ? super T, U> accumulator, BinaryOperator<U> combiner);
-
-	@Override
-	<R> Observable<R> collect(Supplier<R> resultFactory, BiConsumer<R, ? super T> accumulator, BiConsumer<R, R> combiner);
-	@Override
-	<R> Observable<R> collect(Collector<? super T, R> collector);
-
-	@Override
-	Observable<T> max(Comparator<? super T> comparator);
-	@Override
-	Observable<T> min(Comparator<? super T> comparator);
-
-	@Override
-	Observable<T> findFirst();
-	@Override
-	Observable<T> findAny();
-
-	@Override
-	Observable<T> merge(Queryable<T> other);
-	Observable<T> merge(Observable<T> other);
-
-	@Override
-	Observable<T> zip(Queryable<T> other);
-	Observable<T> zip(Observable<T> other);
 
 }

@@ -20,14 +20,12 @@
  * SOFTWARE.
  */
 
-package com.hartveld.queryable.reactive;
+package com.hartveld.queryable;
 
-public interface Observer<T> {
+import java.util.function.Function;
 
-	void onNext(T value);
+public interface Monad<T> {
 
-	void onError(Exception exception);
-
-	void onCompleted();
+	<R> Monad<R> flatMap(Function<? super T, ? extends Monad<? extends R>> mapper);
 
 }

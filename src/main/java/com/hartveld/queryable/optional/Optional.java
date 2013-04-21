@@ -20,14 +20,46 @@
  * SOFTWARE.
  */
 
-package com.hartveld.queryable.reactive;
+package com.hartveld.queryable.optional;
 
-public interface Observer<T> {
+import com.google.common.base.Preconditions;
+import com.hartveld.queryable.Monad;
+import com.hartveld.queryable.Queryable;
+import java.util.NoSuchElementException;
+import java.util.function.BinaryOperator;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
-	void onNext(T value);
+public interface Optional<T> extends Queryable<T> {
 
-	void onError(Exception exception);
+	public static <T> Optional<T> none() {
+		return None.instance();
+	}
 
-	void onCompleted();
+	public static <T> Optional<T> some(final T value) {
+		Preconditions.checkNotNull(value, "value");
+
+		return new Some<>(value);
+	}
+
+	boolean hasValue();
+
+	T getValue() throws NoSuchElementException;
+
+	@Override
+	<R> Optional<R> flatMap(Function<? super T, ? extends Monad<? extends R>> mapper);
+
+	@Override
+	<R> Optional<R> map(Function<? super T, ? extends R> mapper);
+
+	@Override
+	Optional<T> reduce(T identity, BinaryOperator<T> accumulator);
+
+	@Override
+	Optional<T> filter(Predicate<? super T> predicate);
+
+	@Override
+	Optional<T> peek(Consumer<? super T> consumer);
 
 }

@@ -20,14 +20,33 @@
  * SOFTWARE.
  */
 
-package com.hartveld.queryable.reactive;
+package com.hartveld.queryable.interactive.collections;
 
-public interface Observer<T> {
+import com.hartveld.queryable.Monad;
+import java.util.function.BinaryOperator;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
-	void onNext(T value);
+public interface List<T> extends Collection<T> {
 
-	void onError(Exception exception);
+	T get(int index);
 
-	void onCompleted();
+	void remove(int index);
+
+	@Override
+	<R> List<R> flatMap(Function<? super T, ? extends Monad<? extends R>> mapper);
+
+	@Override
+	<R> List<R> map(Function<? super T, ? extends R> mapper);
+
+	@Override
+	List<T> reduce(T identity, BinaryOperator<T> accumulator);
+
+	@Override
+	List<T> filter(Predicate<? super T> predicate);
+
+	@Override
+	List<T> peek(Consumer<? super T> consumer);
 
 }

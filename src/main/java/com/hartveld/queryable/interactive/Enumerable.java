@@ -22,86 +22,32 @@
 
 package com.hartveld.queryable.interactive;
 
+import com.hartveld.queryable.Monad;
 import com.hartveld.queryable.Queryable;
-import java.util.Comparator;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.function.Supplier;
-import java.util.stream.Collector;
 
-public interface Enumerable<T> extends Queryable<T> {
-
-	void forEach(Consumer<? super T> consumer);
+public interface Enumerable<T> extends Queryable<T>, Iterable<T> {
 
 	@Override
-	Enumerable<T> filter(Predicate<? super T> predicate);
+	Enumerator<T> iterator();
+
+	@Override
+	<R> Enumerable<R> flatMap(Function<? super T, ? extends Monad<? extends R>> mapper);
 
 	@Override
 	<R> Enumerable<R> map(Function<? super T, ? extends R> mapper);
 
 	@Override
-	<R> Enumerable<R> flatMap(Function<? super T, ? extends Queryable<? extends R>> mapper);
+	Enumerable<T> reduce(T identity, BinaryOperator<T> accumulator);
 
 	@Override
-	Enumerable<T> distinct();
-
-	@Override
-	Enumerable<T> sorted();
-	@Override
-	Enumerable<T> sorted(Comparator<? super T> comparator);
-
-	@Override
-	Enumerable<T> limit(long maxSize);
-	@Override
-	Enumerable<T> substream(long startingOffset);
-	@Override
-	Enumerable<T> substream(long startingOffset, long endingOffset);
+	Enumerable<T> filter(Predicate<? super T> predicate);
 
 	@Override
 	Enumerable<T> peek(Consumer<? super T> consumer);
 
-	@Override
-	Enumerable<Boolean> anyMatch(Predicate<? super T> predicate);
-	@Override
-	Enumerable<Boolean> allMatch(Predicate<? super T> predicate);
-	@Override
-	Enumerable<Boolean> noneMatch(Predicate<? super T> predicate);
-
-	@Override
-	Enumerable<Long> count();
-
-	@Override
-	Enumerable<T> reduce(T identity, BinaryOperator<T> accumulator);
-	@Override
-	Enumerable<T> reduce(BinaryOperator<T> accumulator);
-	@Override
-	<U> Enumerable<U> reduce(U identity, BiFunction<U, ? super T, U> accumulator, BinaryOperator<U> combiner);
-
-	@Override
-	<R> Enumerable<R> collect(Supplier<R> resultFactory, BiConsumer<R, ? super T> accumulator, BiConsumer<R, R> combiner);
-	@Override
-	<R> Enumerable<R> collect(Collector<? super T, R> collector);
-
-	@Override
-	Enumerable<T> max(Comparator<? super T> comparator);
-	@Override
-	Enumerable<T> min(Comparator<? super T> comparator);
-
-	@Override
-	Enumerable<T> findFirst();
-	@Override
-	Enumerable<T> findAny();
-
-	@Override
-	Enumerable<T> merge(Queryable<T> other);
-	Enumerable<T> merge(Enumerable<T> other);
-
-	@Override
-	Enumerable<T> zip(Queryable<T> other);
-	Enumerable<T> zip(Enumerable<T> other);
 
 }

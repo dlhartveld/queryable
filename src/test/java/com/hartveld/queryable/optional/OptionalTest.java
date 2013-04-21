@@ -20,14 +20,32 @@
  * SOFTWARE.
  */
 
-package com.hartveld.queryable.reactive;
+package com.hartveld.queryable.optional;
 
-public interface Observer<T> {
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
-	void onNext(T value);
+import org.junit.Test;
 
-	void onError(Exception exception);
+public class OptionalTest {
 
-	void onCompleted();
+	@Test
+	public void testThatNoneReturnsCorrectObjectType() {
+		final Optional<Object> optional = Optional.none();
+
+		assertThat("Optional.none() does not return object of type None",
+				optional, is(instanceOf(None.class))
+		);
+	}
+
+	@Test
+	public void testThatSomeReturnsCorrectObjectType() {
+		final Optional<Object> optional = Optional.some(new Object());
+
+		assertThat("Optional.some() does not return object of type Some",
+				optional, is(instanceOf(Some.class))
+		);
+	}
 
 }
