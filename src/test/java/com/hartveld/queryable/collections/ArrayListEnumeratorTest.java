@@ -23,58 +23,54 @@
 package com.hartveld.queryable.collections;
 
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 
-import com.hartveld.queryable.interactive.Enumerable;
-import com.hartveld.queryable.interactive.Enumerables;
+import java.util.NoSuchElementException;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
-public class ArrayListTest {
+@RunWith(MockitoJUnitRunner.class)
+public class ArrayListEnumeratorTest {
 
-	private ArrayList<Object> list;
+	private ArrayListEnumerator<Object> enumerator;
+
+	@Mock
+	private ArrayList<Object> source;
 
 	@Before
 	public void setUp() {
-		this.list = new ArrayList<>();
+		this.enumerator = new ArrayListEnumerator<>(source);
 	}
 
 	@Test
-	public void testThatSizeOfNewArrayListIsZero() {
-		for (final Object o : this.list) {
-			fail("Newly instantiated ArrayList contained object: " + o);
-		}
-	}
-
-	@Test
-	public void testThatFlatMapOnEmptyArrayListReturnsNewList() {
-		final Enumerable<Object> result = this.list.flatMap(x -> Enumerables.empty());
+	public void testThatHasNextForEmptySourceReturnsFalse() {
+		this.enumerator = new ArrayListEnumerator<>(new ArrayList<>());
 
 		assertThat(
-				"flatMap should return new instance",
-				result, is(not(sameInstance(list)))
+				"hasNext() should not return true for an empty ArrayList",
+				this.enumerator.hasNext(), is(false)
 		);
 	}
 
 	@Test
-	public void testThatFlatMapOnEmptyArrayListReturnsEmptyList() {
-		final Enumerable<Object> result = this.list.flatMap(x -> Enumerables.empty());
+	public void testThatNextForEmptySourceThrowsNoSuchElementException() {
+		this.enumerator = new ArrayListEnumerator<>(new ArrayList<>());
 
-		for (final Object o : result) {
-			fail("Result returned by flatMap on empty list contained object: " + o);
+		boolean exceptionWasThrown = false;
+
+		try {
+			this.enumerator.next();
+		} catch (final NoSuchElementException e) {
+			exceptionWasThrown = true;
 		}
-	}
-
-	@Test
-	public void testThatAsEnumerableReturnsThisInstance() {
-		final Enumerable<Object> result = this.list.asEnumerable();
 
 		assertThat(
-				"asEnumerable did not return 'this' instance",
-				result, is(sameInstance(this.list))
+				"next() should throw exception for empty source ArrayList",
+				exceptionWasThrown, is(true)
 		);
 	}
+
 }

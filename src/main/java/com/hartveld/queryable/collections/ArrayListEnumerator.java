@@ -20,14 +20,23 @@
  * SOFTWARE.
  */
 
-package com.hartveld.queryable.interactive;
+package com.hartveld.queryable.collections;
 
-import java.util.Iterator;
+import com.hartveld.queryable.interactive.Enumerator;
 import java.util.NoSuchElementException;
 
-public interface Enumerator<T> extends Iterator<T> {
+class ArrayListEnumerator<T> implements Enumerator<T> {
+
+	ArrayListEnumerator(final ArrayList<? extends T> source) { }
 
 	@Override
-	T next() throws NoSuchElementException;
+	public boolean hasNext() {
+		return false;
+	}
+
+	@Override
+	public T next() throws NoSuchElementException {
+		throw new NoSuchElementException("Source ArrayList is empty");
+	}
 
 }

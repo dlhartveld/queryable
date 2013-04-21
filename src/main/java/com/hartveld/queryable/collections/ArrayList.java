@@ -25,19 +25,77 @@ package com.hartveld.queryable.collections;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.hartveld.queryable.Monad;
+import com.hartveld.queryable.interactive.Enumerable;
+import com.hartveld.queryable.interactive.Enumerator;
+import com.hartveld.queryable.reactive.Observable;
+import java.util.function.BinaryOperator;
+import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
+import org.apache.commons.lang.NotImplementedException;
 
-public class ArrayList<T> implements Monad<T> {
+public class ArrayList<T> implements Collection<T> {
 
-	public int getSize() {
-		return 0;
+	@Override
+	public Enumerator<T> iterator() {
+		return new ArrayListEnumerator<>(this);
 	}
 
 	@Override
-	public <R> ArrayList<R> flatMap(final Function<? super T, ? extends Monad<? extends R>> mapper) {
+	public long getSize() {
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public void add(T value) {
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public void remove(T value) {
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public void clear() {
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public <R> Enumerable<R> flatMap(final Function<? super T, ? extends Monad<? extends R>> mapper) {
 		checkNotNull(mapper, "mapper");
 
 		return new ArrayList<>();
+	}
+
+	@Override
+	public <R> Enumerable<R> map(Function<? super T, ? extends R> mapper) {
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public Enumerable<T> reduce(T identity, BinaryOperator<T> accumulator) {
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public Enumerable<T> filter(Predicate<? super T> predicate) {
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public Enumerable<T> peek(Consumer<? super T> consumer) {
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public Enumerable<T> asEnumerable() {
+		return this;
+	}
+
+	@Override
+	public Observable<T> asObservable() {
+		throw new NotImplementedException();
 	}
 
 }
