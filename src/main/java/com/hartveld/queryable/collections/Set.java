@@ -20,33 +20,8 @@
  * SOFTWARE.
  */
 
-package com.hartveld.queryable.interactive.collections;
+package com.hartveld.queryable.collections;
 
-import com.hartveld.queryable.Monad;
-import java.util.function.BinaryOperator;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
-
-public interface List<T> extends Collection<T> {
-
-	T get(int index);
-
-	void remove(int index);
-
-	@Override
-	<R> List<R> flatMap(Function<? super T, ? extends Monad<? extends R>> mapper);
-
-	@Override
-	<R> List<R> map(Function<? super T, ? extends R> mapper);
-
-	@Override
-	List<T> reduce(T identity, BinaryOperator<T> accumulator);
-
-	@Override
-	List<T> filter(Predicate<? super T> predicate);
-
-	@Override
-	List<T> peek(Consumer<? super T> consumer);
+public interface Set<T> extends Collection<T> {
 
 }
