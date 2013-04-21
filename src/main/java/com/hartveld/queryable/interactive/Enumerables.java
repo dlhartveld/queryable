@@ -22,12 +22,13 @@
 
 package com.hartveld.queryable.interactive;
 
+import com.hartveld.queryable.collections.ArrayList;
 import org.apache.commons.lang.NotImplementedException;
 
 public class Enumerables {
 
 	public static <T> Enumerable<T> empty() {
-		throw new NotImplementedException();
+		return new ArrayList<>();
 	}
 
 	public static <T> Enumerable<T> single(final T value) {

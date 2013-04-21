@@ -155,7 +155,7 @@ public class SomeTest {
 	}
 
 	@Test
-	public void testThatAsEnumerableReturnsEmptyEnumerable() {
+	public void testThatAsEnumerableReturnsEnumerableWithSingleElement() {
 		final Enumerable<Object> enumerable = some.asEnumerable();
 
 		int count = 0;
@@ -171,7 +171,7 @@ public class SomeTest {
 	}
 
 	@Test
-	public void testThatAsObservableReturnsEmptyObservable() {
+	public void testThatAsObservableReturnsObservableWithSingleElement() {
 		final Observable<Object> observable = some.asObservable();
 
 		final AtomicInteger count = new AtomicInteger();
