@@ -20,10 +20,12 @@
  * SOFTWARE.
  */
 
-package com.hartveld.queryable.collections.immutable;
+package com.hartveld.queryable.interactive.collections;
 
-import com.hartveld.queryable.collections.UnmodifiableSet;
+import com.hartveld.queryable.interactive.Enumerable;
 
-public interface ImmutableSet<T extends Immutable> extends UnmodifiableSet<T>, ImmutableCollection<T> {
+public interface UnmodifiableCollection<T> extends Enumerable<T> {
+
+	long getSize();
 
 }

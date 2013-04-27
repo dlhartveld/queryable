@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-package com.hartveld.queryable.collections;
+package com.hartveld.queryable.interactive.collections;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.lang.System.arraycopy;

@@ -20,18 +20,8 @@
  * SOFTWARE.
  */
 
-package com.hartveld.queryable.collections;
+package com.hartveld.queryable.interactive.collections;
 
-import com.hartveld.queryable.interactive.Enumerable;
-
-public interface ModifiableCollection<T> extends Enumerable<T> {
-
-	long getSize();
-
-	void add(T value);
-
-	void remove(T value);
-
-	void clear();
+public interface ModifiableSet<T> extends UnmodifiableSet<T>, ModifiableCollection<T> {
 
 }

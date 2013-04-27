@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-package com.hartveld.queryable.collections.immutable;
+package com.hartveld.queryable.interactive.collections.immutable;
 
 @SuppressWarnings("MarkerInterface")
 public interface Immutable {

@@ -20,10 +20,10 @@
  * SOFTWARE.
  */
 
-package com.hartveld.queryable.collections.immutable;
+package com.hartveld.queryable.interactive.collections;
 
-import com.hartveld.queryable.collections.UnmodifiableCollection;
+public interface UnmodifiableList<T> extends UnmodifiableCollection<T> {
 
-public interface ImmutableCollection<T extends Immutable> extends UnmodifiableCollection<T> {
+	T get(long index);
 
 }

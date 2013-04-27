@@ -20,8 +20,8 @@
  * SOFTWARE.
  */
 
-package com.hartveld.queryable.collections;
+package com.hartveld.queryable.interactive.collections;
 
-public interface UnmodifiableSet<T> extends UnmodifiableCollection<T> {
+public interface Collection<T> extends ModifiableCollection<T>, UnmodifiableCollection<T> {
 
 }

@@ -22,7 +22,7 @@
 
 package com.hartveld.queryable.interactive;
 
-import com.hartveld.queryable.collections.ArrayList;
+import com.hartveld.queryable.interactive.collections.ArrayList;
 
 public class Enumerables {
 

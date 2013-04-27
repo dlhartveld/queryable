@@ -20,8 +20,10 @@
  * SOFTWARE.
  */
 
-package com.hartveld.queryable.collections;
+package com.hartveld.queryable.interactive.collections;
 
-public interface Collection<T> extends ModifiableCollection<T>, UnmodifiableCollection<T> {
+public interface ModifiableList<T> extends UnmodifiableList<T>, ModifiableCollection<T> {
+
+	void remove(long index);
 
 }
