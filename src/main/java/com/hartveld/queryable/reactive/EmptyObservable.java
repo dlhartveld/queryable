@@ -23,6 +23,7 @@
 package com.hartveld.queryable.reactive;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.hartveld.queryable.reactive.autocloseables.AutoCloseables.noop;
 
 import com.hartveld.queryable.Monad;
 import com.hartveld.queryable.interactive.Enumerable;
@@ -40,7 +41,7 @@ public class EmptyObservable<T> extends AbstractObservable<T> implements Observa
 
 		onCompleted.run();
 
-		return () -> { };
+		return noop();
 	}
 
 	@Override
