@@ -23,7 +23,6 @@
 package com.hartveld.queryable.interactive;
 
 import com.hartveld.queryable.collections.ArrayList;
-import org.apache.commons.lang.NotImplementedException;
 
 public class Enumerables {
 
@@ -32,7 +31,7 @@ public class Enumerables {
 	}
 
 	public static <T> Enumerable<T> single(final T value) {
-		throw new NotImplementedException();
+		return ArrayList.of(value);
 	}
 
 	private Enumerables() { }

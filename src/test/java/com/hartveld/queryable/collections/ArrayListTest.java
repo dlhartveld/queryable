@@ -30,6 +30,7 @@ import static org.junit.Assert.fail;
 
 import com.hartveld.queryable.interactive.Enumerable;
 import com.hartveld.queryable.interactive.Enumerables;
+import com.hartveld.queryable.interactive.Enumerator;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -77,4 +78,45 @@ public class ArrayListTest {
 				result, is(sameInstance(this.list))
 		);
 	}
+
+	@Test
+	public void testThatArrayListWithThreeAddedObjectsHasSizeThree() {
+		this.list.add(new Object());
+		this.list.add(new Object());
+		this.list.add(new Object());
+
+		assertThat(
+				"ArrayList should have size 3",
+				this.list.getSize(), is(3l)
+		);
+	}
+
+	@Test
+	public void testThatAddedObjectsAreReturnedByEnumerator() {
+		final Object [] o = new Object[3];
+		o[0] = new Object();
+		o[1] = new Object();
+		o[2] = new Object();
+
+		this.list.add(o[0]);
+		this.list.add(o[1]);
+		this.list.add(o[2]);
+
+		final Enumerator<Object> enumerator = this.list.iterator();
+		for (int i = 0; i < 3; i++) {
+			assertThat(
+					"Enumerator should have next value ready",
+					enumerator.hasNext(), is(true)
+			);
+
+			final Object current = enumerator.next();
+			assertThat(current, is(sameInstance(o[i])));
+		}
+
+		assertThat(
+				"Enumerator should not have more values",
+				enumerator.hasNext(), is(false)
+		);
+	}
+
 }

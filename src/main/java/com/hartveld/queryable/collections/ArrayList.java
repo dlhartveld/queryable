@@ -23,11 +23,13 @@
 package com.hartveld.queryable.collections;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.lang.System.arraycopy;
 
 import com.hartveld.queryable.Monad;
 import com.hartveld.queryable.interactive.Enumerable;
 import com.hartveld.queryable.interactive.Enumerator;
 import com.hartveld.queryable.reactive.Observable;
+import java.util.NoSuchElementException;
 import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -36,19 +38,48 @@ import org.apache.commons.lang.NotImplementedException;
 
 public class ArrayList<T> implements Collection<T> {
 
+	private static final int DEFAULT_SIZE = 10;
+
+	public static <T> ArrayList<T> of(final T... values) {
+		checkNotNull(values, "values");
+
+		return new ArrayList<>(values);
+	}
+
+	private T[] elements;
+	private int size;
+
+	public ArrayList(final T... values) {
+		checkNotNull(values, "values");
+
+		this.elements = (T[]) new Object[values.length < DEFAULT_SIZE ? DEFAULT_SIZE : values.length];
+		this.size = values.length;
+
+		arraycopy(values, 0, this.elements, 0, values.length);
+	}
+
 	@Override
 	public Enumerator<T> iterator() {
-		return new ArrayListEnumerator<>(this);
+		return new ArrayListEnumerator();
 	}
 
 	@Override
 	public long getSize() {
-		throw new NotImplementedException();
+		return size;
 	}
 
 	@Override
-	public void add(T value) {
-		throw new NotImplementedException();
+	public void add(final T value) {
+		checkNotNull(value, "value");
+
+		if (size > elements.length) {
+			throw new IllegalStateException("BUG: size > elements.length");
+		} else if (size == elements.length) {
+			resize();
+		}
+
+		elements[size] = value;
+		size++;
 	}
 
 	@Override
@@ -96,6 +127,38 @@ public class ArrayList<T> implements Collection<T> {
 	@Override
 	public Observable<T> asObservable() {
 		throw new NotImplementedException();
+	}
+
+	private void resize() {
+		final T[] origin = elements;
+
+		elements = (T[]) new Object[origin.length * 2];
+
+		arraycopy(origin, 0, elements, 0, origin.length);
+	}
+
+	class ArrayListEnumerator implements Enumerator<T> {
+
+		private int index;
+
+		@Override
+		public boolean hasNext() {
+			return index < size;
+		}
+
+		@Override
+		public T next() throws NoSuchElementException {
+			if (hasNext()) {
+				final T next = elements[index];
+
+				index++;
+
+				return next;
+			} else {
+				throw new NoSuchElementException("Source ArrayList has no more elements");
+			}
+		}
+
 	}
 
 }
