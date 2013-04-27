@@ -22,18 +22,28 @@
 
 package com.hartveld.queryable.reactive;
 
-import org.apache.commons.lang.NotImplementedException;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
-public class Observables {
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
-	public static <T> Observable<T> empty() {
-		return new EmptyObservable<>();
+@RunWith(MockitoJUnitRunner.class)
+public class EmptyObservableTest {
+
+	@Mock
+	private Observer<Object> observer;
+
+	@Test
+	public void testThatEmptyObservableImmediatelyCallsOnCompletedOnSubscription() throws Exception {
+		final Observable<Object> observable = Observables.empty();
+
+		observable.subscribe(observer);
+
+		verify(observer).onCompleted();
+		verifyNoMoreInteractions(observer);
 	}
-
-	public static <T> Observable<T> single(final T value) {
-		throw new NotImplementedException();
-	}
-
-	private Observables() { }
 
 }

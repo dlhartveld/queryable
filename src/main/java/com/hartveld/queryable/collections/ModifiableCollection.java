@@ -20,20 +20,18 @@
  * SOFTWARE.
  */
 
-package com.hartveld.queryable.reactive;
+package com.hartveld.queryable.collections;
 
-import org.apache.commons.lang.NotImplementedException;
+import com.hartveld.queryable.interactive.Enumerable;
 
-public class Observables {
+public interface ModifiableCollection<T> extends Enumerable<T> {
 
-	public static <T> Observable<T> empty() {
-		return new EmptyObservable<>();
-	}
+	long getSize();
 
-	public static <T> Observable<T> single(final T value) {
-		throw new NotImplementedException();
-	}
+	void add(T value);
 
-	private Observables() { }
+	void remove(T value);
+
+	void clear();
 
 }

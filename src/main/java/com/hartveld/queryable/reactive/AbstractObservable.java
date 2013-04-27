@@ -22,18 +22,50 @@
 
 package com.hartveld.queryable.reactive;
 
+
+import com.hartveld.queryable.Monad;
+import com.hartveld.queryable.interactive.Enumerable;
+import java.util.function.BinaryOperator;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import org.apache.commons.lang.NotImplementedException;
 
-public class Observables {
+abstract class AbstractObservable<T> implements Observable<T> {
 
-	public static <T> Observable<T> empty() {
-		return new EmptyObservable<>();
-	}
-
-	public static <T> Observable<T> single(final T value) {
+	@Override
+	public <R> Observable<R> flatMap(final Function<? super T, ? extends Monad<? extends R>> mapper) {
 		throw new NotImplementedException();
 	}
 
-	private Observables() { }
+	@Override
+	public <R> Observable<R> map(final Function<? super T, ? extends R> mapper) {
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public Observable<T> reduce(final T identity, final BinaryOperator<T> accumulator) {
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public Observable<T> filter(final Predicate<? super T> predicate) {
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public Observable<T> peek(final Consumer<? super T> consumer) {
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public Enumerable<T> asEnumerable() {
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public Observable<T> asObservable() {
+		return this;
+	}
 
 }

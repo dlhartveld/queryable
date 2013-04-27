@@ -20,12 +20,9 @@
  * SOFTWARE.
  */
 
-package com.hartveld.queryable.collections;
+package com.hartveld.queryable.collections.immutable;
 
-public interface List<T> extends Collection<T> {
-
-	T get(int index);
-
-	void remove(int index);
+@SuppressWarnings("MarkerInterface")
+public interface Immutable {
 
 }

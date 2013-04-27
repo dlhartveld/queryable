@@ -22,16 +22,6 @@
 
 package com.hartveld.queryable.collections;
 
-import com.hartveld.queryable.interactive.Enumerable;
-
-public interface Collection<T> extends Enumerable<T> {
-
-	long getSize();
-
-	void add(T value);
-
-	void remove(T value);
-
-	void clear();
+public interface Collection<T> extends ModifiableCollection<T>, UnmodifiableCollection<T> {
 
 }
