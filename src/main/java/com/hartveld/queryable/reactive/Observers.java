@@ -22,50 +22,29 @@
 
 package com.hartveld.queryable.reactive;
 
-
-import com.hartveld.queryable.Monad;
-import com.hartveld.queryable.interactive.Enumerable;
-import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import org.apache.commons.lang.NotImplementedException;
 
-abstract class AbstractObservable<T> implements Observable<T> {
+public class Observers {
 
-	@Override
-	public <R> Observable<R> flatMap(final Function<? super T, ? extends Monad<? extends R>> mapper) {
-		throw new NotImplementedException();
+	public static <T> Observer<? super T> observerWith(final Consumer<? super T> onNext, final Consumer<Exception> onError, final Runnable onCompleted) {
+		return new Observer<T>() {
+			@Override
+			public void onNext(final T value) {
+				onNext.accept(value);
+			}
+
+			@Override
+			public void onError(final Exception exception) {
+				onError.accept(exception);
+			}
+
+			@Override
+			public void onCompleted() {
+				onCompleted.run();
+			}
+		};
 	}
 
-	@Override
-	public <R> Observable<R> map(final Function<? super T, ? extends R> mapper) {
-		throw new NotImplementedException();
-	}
-
-	@Override
-	public Observable<T> reduce(final T identity, final BinaryOperator<T> accumulator) {
-		throw new NotImplementedException();
-	}
-
-	@Override
-	public Observable<T> filter(final Predicate<? super T> predicate) {
-		throw new NotImplementedException();
-	}
-
-	@Override
-	public Observable<T> peek(final Consumer<? super T> consumer) {
-		throw new NotImplementedException();
-	}
-
-	@Override
-	public Enumerable<T> asEnumerable() {
-		throw new NotImplementedException();
-	}
-
-	@Override
-	public Observable<T> asObservable() {
-		return this;
-	}
+	private Observers() { }
 
 }

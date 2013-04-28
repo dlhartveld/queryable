@@ -22,8 +22,16 @@
 
 package com.hartveld.queryable.reactive.autocloseables;
 
+/**
+ * Factory for some generic and convenient implementations of {@link AutoCloseable}.
+ */
 public class AutoCloseables {
 
+	/**
+	 * Do nothing on closing of the {@link AutoCloseable}.
+	 *
+	 * @return An {@link AutoCloseable} that does nothing.
+	 */
 	public static AutoCloseable noop() {
 		return () -> { };
 	}

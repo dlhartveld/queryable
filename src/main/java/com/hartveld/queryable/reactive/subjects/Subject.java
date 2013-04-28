@@ -20,30 +20,11 @@
  * SOFTWARE.
  */
 
-package com.hartveld.queryable.reactive;
+package com.hartveld.queryable.reactive.subjects;
 
-import com.hartveld.queryable.reactive.subjects.EmptyObservable;
-import static com.google.common.base.Preconditions.checkNotNull;
+import com.hartveld.queryable.reactive.Observable;
+import com.hartveld.queryable.reactive.Observer;
 
-import com.hartveld.queryable.reactive.subjects.ReplaySubject;
-import com.hartveld.queryable.reactive.subjects.Subject;
-
-public class Observables {
-
-	public static <T> Observable<T> empty() {
-		return new EmptyObservable<>();
-	}
-
-	public static <T> Observable<T> single(final T value) {
-		checkNotNull(value, "value");
-
-		final Subject<T> subject = new ReplaySubject<>();
-		subject.onNext(value);
-		subject.onCompleted();
-
-		return subject;
-	}
-
-	private Observables() { }
+public interface Subject<T> extends Observable<T>, Observer<T> {
 
 }

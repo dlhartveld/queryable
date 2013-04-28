@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-package com.hartveld.queryable.reactive;
+package com.hartveld.queryable.reactive.subjects;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.hartveld.queryable.reactive.autocloseables.AutoCloseables.noop;
@@ -28,15 +28,17 @@ import static com.hartveld.queryable.reactive.autocloseables.AutoCloseables.noop
 import com.hartveld.queryable.Monad;
 import com.hartveld.queryable.interactive.Enumerable;
 import com.hartveld.queryable.interactive.Enumerables;
+import com.hartveld.queryable.reactive.Observable;
+import com.hartveld.queryable.reactive.Observables;
 import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public class EmptyObservable<T> extends AbstractObservable<T> implements Observable<T> {
+public class EmptyObservable<T> implements Subject<T> {
 
 	@Override
-	public AutoCloseable subscribe(final Consumer<? extends T> onNext, final Consumer<Exception> onError, final Runnable onCompleted) {
+	public AutoCloseable subscribe(final Consumer<? super T> onNext, final Consumer<Exception> onError, final Runnable onCompleted) {
 		checkNotNull(onCompleted, "onCompleted");
 
 		onCompleted.run();
@@ -79,6 +81,21 @@ public class EmptyObservable<T> extends AbstractObservable<T> implements Observa
 	@Override
 	public Observable<T> asObservable() {
 		return this;
+	}
+
+	@Override
+	public void onNext(final T value) {
+		throw new UnsupportedOperationException("EmptySubject does not accept new notifications");
+	}
+
+	@Override
+	public void onError(final Exception exception) {
+		throw new UnsupportedOperationException("EmptySubject does not accept new notifications");
+	}
+
+	@Override
+	public void onCompleted() {
+		throw new UnsupportedOperationException("EmptySubject does not accept new notifications");
 	}
 
 }

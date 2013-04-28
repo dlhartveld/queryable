@@ -31,19 +31,19 @@ import java.util.function.Predicate;
 
 public interface Observable<T> extends Queryable<T> {
 
-	default AutoCloseable subscribe(Consumer<? extends T> onNext) {
+	default AutoCloseable subscribe(Consumer<? super T> onNext) {
 		return subscribe(onNext, ex ->  { }, () -> { });
 	}
 
-	default AutoCloseable subscribe(Consumer<? extends T> onNext, Runnable onCompleted) {
+	default AutoCloseable subscribe(Consumer<? super T> onNext, Runnable onCompleted) {
 		return subscribe(onNext, ex -> { }, onCompleted);
 	}
 
-	default AutoCloseable subscribe(Consumer<? extends T> onNext, Consumer<Exception> onError) {
+	default AutoCloseable subscribe(Consumer<? super T> onNext, Consumer<Exception> onError) {
 		return subscribe(onNext, onError, () -> { });
 	}
 
-	AutoCloseable subscribe(Consumer<? extends T> onNext, Consumer<Exception> onError, Runnable onCompleted);
+	AutoCloseable subscribe(Consumer<? super T> onNext, Consumer<Exception> onError, Runnable onCompleted);
 
 	default AutoCloseable subscribe(final Observer<? super T> observer) {
 		return subscribe(observer::onNext, observer::onError, observer::onCompleted);

@@ -20,8 +20,11 @@
  * SOFTWARE.
  */
 
-package com.hartveld.queryable.reactive;
+package com.hartveld.queryable.reactive.subjects;
 
+import com.hartveld.queryable.reactive.Observable;
+import com.hartveld.queryable.reactive.Observables;
+import com.hartveld.queryable.reactive.Observer;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 

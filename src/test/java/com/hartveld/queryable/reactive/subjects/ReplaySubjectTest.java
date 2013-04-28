@@ -20,30 +20,44 @@
  * SOFTWARE.
  */
 
-package com.hartveld.queryable.reactive;
+package com.hartveld.queryable.reactive.subjects;
 
-import com.hartveld.queryable.reactive.subjects.EmptyObservable;
-import static com.google.common.base.Preconditions.checkNotNull;
+import static org.mockito.Mockito.verify;
 
-import com.hartveld.queryable.reactive.subjects.ReplaySubject;
-import com.hartveld.queryable.reactive.subjects.Subject;
+import com.hartveld.queryable.reactive.Observer;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
-public class Observables {
+@RunWith(MockitoJUnitRunner.class)
+public class ReplaySubjectTest {
 
-	public static <T> Observable<T> empty() {
-		return new EmptyObservable<>();
+	private ReplaySubject<Object> subject;
+
+	@Mock
+	private Observer<Object> observer;
+
+	@Before
+	public void setUp() {
+		this.subject = new ReplaySubject<>();
 	}
 
-	public static <T> Observable<T> single(final T value) {
-		checkNotNull(value, "value");
+	@Test
+	public void testThatTwoValuesAndCompletedAreReceveivedOnSubscription() throws Exception {
+		final Object o1 = new Object();
+		final Object o2 = new Object();
 
-		final Subject<T> subject = new ReplaySubject<>();
-		subject.onNext(value);
-		subject.onCompleted();
+		this.subject.onNext(o1);
+		this.subject.onNext(o2);
+		this.subject.onCompleted();
 
-		return subject;
+		this.subject.subscribe(observer).close();
+
+		verify(observer).onNext(o1);
+		verify(observer).onNext(o2);
+		verify(observer).onCompleted();
 	}
-
-	private Observables() { }
 
 }
