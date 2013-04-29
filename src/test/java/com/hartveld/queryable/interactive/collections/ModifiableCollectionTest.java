@@ -58,7 +58,7 @@ public interface ModifiableCollectionTest extends UnmodifiableCollectionTest {
 
 		assertThat(
 				"Cleared collection should have zero size",
-				collection.getSize(), is(0l)
+				collection.getSize(), is(0)
 		);
 	}
 
@@ -78,7 +78,7 @@ public interface ModifiableCollectionTest extends UnmodifiableCollectionTest {
 	}
 
 	@Test
-	default void testThatCollectionDoesNotContainSpecificElementAfterRemove() {
+	default void testThatModifiableCollectionDoesNotContainSpecificElementAfterRemove() {
 		final Object o1 = new Object();
 		final Object o2 = new Object();
 		final Object o3 = new Object();

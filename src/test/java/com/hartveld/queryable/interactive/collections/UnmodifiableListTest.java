@@ -38,7 +38,7 @@ public interface UnmodifiableListTest extends UnmodifiableCollectionTest {
 	}
 
 	@Test
-	default void test() {
+	default void testThatGetReturnsCorrectElements() {
 		final Object o1 = new Object();
 		final Object o2 = new Object();
 		final Object o3 = new Object();
@@ -53,7 +53,7 @@ public interface UnmodifiableListTest extends UnmodifiableCollectionTest {
 	default <T> void assertThatElementAtIndexIsSameInstance(final UnmodifiableList<T> list, final int index, final T element, final String name) {
 		assertThat(
 				"List element " + index + " is not the same instance as " + name,
-				list.get(0), is(sameInstance(element))
+				list.get(index), is(sameInstance(element))
 		);
 	}
 

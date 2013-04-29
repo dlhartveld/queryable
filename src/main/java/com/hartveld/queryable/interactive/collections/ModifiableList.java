@@ -24,6 +24,6 @@ package com.hartveld.queryable.interactive.collections;
 
 public interface ModifiableList<T> extends UnmodifiableList<T>, ModifiableCollection<T> {
 
-	void remove(long index);
+	void remove(int index);
 
 }

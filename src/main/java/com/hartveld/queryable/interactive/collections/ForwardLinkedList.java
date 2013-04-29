@@ -48,7 +48,7 @@ public class ForwardLinkedList<T> implements ModifiableList<T> {
 	}
 
 	@Override
-	public long getSize() {
+	public int getSize() {
 		if (next != null) {
 			return 1 + next.getSize();
 		} else if (element != null) {
@@ -59,8 +59,20 @@ public class ForwardLinkedList<T> implements ModifiableList<T> {
 	}
 
 	@Override
-	public T get(final long index) {
-		throw new NotImplementedException();
+	public T get(final int index) {
+		if (index > 0) {
+			if (next != null) {
+				return next.get(index - 1);
+			} else {
+				throw new IllegalArgumentException("index >= size");
+			}
+		} else {
+			if (element != null) {
+				return element;
+			} else {
+				throw new IllegalArgumentException("index >= size");
+			}
+		}
 	}
 
 	@Override
@@ -90,7 +102,7 @@ public class ForwardLinkedList<T> implements ModifiableList<T> {
 	}
 
 	@Override
-	public void remove(final long index) {
+	public void remove(final int index) {
 		throw new NotImplementedException();
 	}
 

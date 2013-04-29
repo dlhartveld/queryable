@@ -26,7 +26,7 @@ import com.hartveld.queryable.interactive.Enumerable;
 
 public interface UnmodifiableCollection<T> extends Enumerable<T> {
 
-	long getSize();
+	int getSize();
 
 	boolean contains(T element);
 

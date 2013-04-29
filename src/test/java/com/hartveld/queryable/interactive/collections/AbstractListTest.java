@@ -28,8 +28,8 @@ public abstract class AbstractListTest implements ModifiableListTest {
 
 	@Override
     @Test
-	public final void testThatCollectionDoesNotContainSpecificElementAfterRemove() {
-		ModifiableListTest.super.testThatCollectionDoesNotContainSpecificElementAfterRemove();
+	public final void testThatModifiableCollectionDoesNotContainSpecificElementAfterRemove() {
+		ModifiableListTest.super.testThatModifiableCollectionDoesNotContainSpecificElementAfterRemove();
 	}
 
 	@Override
@@ -54,6 +54,12 @@ public abstract class AbstractListTest implements ModifiableListTest {
     @Test
 	public final void testThatUnmodifiableCollectionWithThreeObjectsHasSizeThree() {
 		ModifiableListTest.super.testThatUnmodifiableCollectionWithThreeObjectsHasSizeThree();
+	}
+
+	@Override
+	@Test
+	public void testThatGetReturnsCorrectElements() {
+		ModifiableListTest.super.testThatGetReturnsCorrectElements();
 	}
 
 }

@@ -24,6 +24,6 @@ package com.hartveld.queryable.interactive.collections;
 
 public interface UnmodifiableList<T> extends UnmodifiableCollection<T> {
 
-	T get(long index);
+	T get(int index);
 
 }

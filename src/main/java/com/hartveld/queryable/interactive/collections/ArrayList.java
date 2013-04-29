@@ -22,6 +22,7 @@
 
 package com.hartveld.queryable.interactive.collections;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.lang.System.arraycopy;
 
@@ -66,13 +67,15 @@ public class ArrayList<T> implements ModifiableList<T> {
 	}
 
 	@Override
-	public long getSize() {
+	public int getSize() {
 		return size;
 	}
 
 	@Override
-	public T get(final long index) {
-		throw new NotImplementedException();
+	public T get(final int index) {
+		checkArgument(index < size, "index >= size");
+
+		return elements[index];
 	}
 
 	@Override
@@ -119,7 +122,7 @@ public class ArrayList<T> implements ModifiableList<T> {
 	}
 
 	@Override
-	public void remove(final long index) {
+	public void remove(final int index) {
 		throw new NotImplementedException();
 	}
 

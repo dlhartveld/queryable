@@ -37,7 +37,7 @@ public interface UnmodifiableCollectionTest {
 
 		assertThat(
 				"Collection should have size 3",
-				collection.getSize(), is(3l)
+				collection.getSize(), is(3)
 		);
 	}
 
