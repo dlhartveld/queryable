@@ -25,39 +25,33 @@ package com.hartveld.queryable.interactive.collections;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-import org.junit.Before;
 import org.junit.Test;
 
-public class ArrayListUnmodifiableCollectionTest {
+public abstract class UnmodifiableCollectionTest {
 
-	private ArrayList<Object> list;
-
-	@Before
-	public void setUp() {
-		list = new ArrayList<>();
-	}
+	protected abstract <T> UnmodifiableCollection<T> createUnmodifiableCollectionWith(T ... elements);
 
 	@Test
-	public void testThatArrayListWithThreeObjectsHasSizeThree() {
-		this.list.add(new Object());
-		this.list.add(new Object());
-		this.list.add(new Object());
+	public void testThatUnmodifiableCollectionWithThreeObjectsHasSizeThree() {
+		final UnmodifiableCollection<Object> collection = createUnmodifiableCollectionWith(new Object(), new Object(), new Object());
 
 		assertThat(
-				"ArrayList should have size 3",
-				this.list.getSize(), is(3l)
+				"Collection should have size 3",
+				collection.getSize(), is(3l)
 		);
 	}
 
 	@Test
-	public void testThatArrayListContainsJustAddedElement() {
-		final Object o = new Object();
+	public void testThatUnmodifiableCollectionContainsSpecificElement() {
+		final Object o1 = new Object();
+		final Object o2 = new Object();
+		final Object o3 = new Object();
 
-		list.add(o);
+		final UnmodifiableCollection<Object> collection = createUnmodifiableCollectionWith(o1, o2, o3);
 
 		assertThat(
-				"List should contain added object o",
-				list.contains(o), is(true)
+				"Collection should contain object o2",
+				collection.contains(o2), is(true)
 		);
 	}
 

@@ -22,12 +22,11 @@
 
 package com.hartveld.queryable.interactive.collections;
 
-public interface ModifiableCollection<T> extends UnmodifiableCollection<T> {
+public class ArrayListTest extends ModifiableCollectionTest {
 
-	void add(T element);
-
-	void remove(T element);
-
-	void clear();
+	@Override
+	protected <T> ModifiableCollection<T> createModifiableCollection() {
+		return new ArrayList<>();
+	}
 
 }

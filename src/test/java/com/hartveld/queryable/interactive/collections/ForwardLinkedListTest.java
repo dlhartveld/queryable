@@ -22,48 +22,11 @@
 
 package com.hartveld.queryable.interactive.collections;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+public class ForwardLinkedListTest extends ModifiableCollectionTest {
 
-import org.junit.Before;
-import org.junit.Test;
-
-public class ArrayListModifiableCollectionTest {
-
-	private ArrayList<Object> list;
-
-
-	@Before
-	public void setUp() {
-		this.list = new ArrayList<>();
-	}
-
-	@Test
-	public void testThatArrayListSizeAfterClearAfterAddingElementsIsZero() {
-		list.add(new Object());
-		list.add(new Object());
-		list.add(new Object());
-
-		list.clear();
-
-		assertThat(
-				"Cleared list should have zero size",
-				list.getSize(), is(0l)
-		);
-	}
-
-	@Test
-	public void testThatArrayListDoesNotContainElementAfterClearAfterAddingElement() {
-		final Object o = new Object();
-
-		list.add(o);
-
-		list.clear();
-
-		assertThat(
-				"Cleared list should not contain value o",
-				list.contains(o), is(false)
-		);
+	@Override
+	protected <T> ModifiableCollection<T> createModifiableCollection() {
+		return new ForwardLinkedList<>();
 	}
 
 }
