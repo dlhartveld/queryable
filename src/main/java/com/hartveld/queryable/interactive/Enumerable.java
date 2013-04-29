@@ -49,5 +49,4 @@ public interface Enumerable<T> extends Queryable<T>, Iterable<T> {
 	@Override
 	Enumerable<T> peek(Consumer<? super T> consumer);
 
-
 }

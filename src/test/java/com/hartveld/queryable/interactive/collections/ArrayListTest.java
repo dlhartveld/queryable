@@ -52,7 +52,19 @@ public class ArrayListTest {
 	}
 
 	@Test
-	public void testThatAddedObjectsAreReturnedByEnumerator() {
+	public void testThatArrayListContainsJustAddedElement() {
+		final Object o = new Object();
+
+		list.add(o);
+
+		assertThat(
+				"List should contain added object o",
+				list.contains(o), is(true)
+		);
+	};
+
+	@Test
+	public void testThatArrayListEnumeratorReturnsJustAddedObjectsInOrder() {
 		final Object [] o = new Object[3];
 
 		o[0] = new Object();
@@ -77,6 +89,34 @@ public class ArrayListTest {
 		assertThat(
 				"Enumerator should not have more values",
 				enumerator.hasNext(), is(false)
+		);
+	}
+
+	@Test
+	public void testThatArrayListSizeAfterClearAfterAddingElementsIsZero() {
+		list.add(new Object());
+		list.add(new Object());
+		list.add(new Object());
+
+		list.clear();
+
+		assertThat(
+				"Cleared list should have zero size",
+				list.getSize(), is(0l)
+		);
+	}
+
+	@Test
+	public void testThatArrayListDoesNotContainElementAfterClearAfterAddingElement() {
+		final Object o = new Object();
+
+		list.add(o);
+
+		list.clear();
+
+		assertThat(
+				"Cleared list should not contain value o",
+				list.contains(o), is(false)
 		);
 	}
 

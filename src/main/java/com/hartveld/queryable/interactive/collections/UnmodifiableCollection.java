@@ -28,4 +28,6 @@ public interface UnmodifiableCollection<T> extends Enumerable<T> {
 
 	long getSize();
 
+	boolean contains(T element);
+
 }

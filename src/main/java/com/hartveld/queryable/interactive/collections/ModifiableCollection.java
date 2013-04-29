@@ -22,11 +22,7 @@
 
 package com.hartveld.queryable.interactive.collections;
 
-import com.hartveld.queryable.interactive.Enumerable;
-
-public interface ModifiableCollection<T> extends Enumerable<T> {
-
-	long getSize();
+public interface ModifiableCollection<T> extends UnmodifiableCollection<T> {
 
 	void add(T value);
 

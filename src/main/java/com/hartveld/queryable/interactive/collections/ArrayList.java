@@ -36,7 +36,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import org.apache.commons.lang.NotImplementedException;
 
-public class ArrayList<T> implements Collection<T> {
+public class ArrayList<T> implements ModifiableCollection<T> {
 
 	private static final int DEFAULT_SIZE = 10;
 
@@ -69,6 +69,19 @@ public class ArrayList<T> implements Collection<T> {
 	}
 
 	@Override
+	public boolean contains(final T value) {
+		checkNotNull(value, "value");
+
+		for (int i = 0; i < size; i++) {
+			if (elements[i].equals(value)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	@Override
 	public void add(final T value) {
 		checkNotNull(value, "value");
 
@@ -89,7 +102,7 @@ public class ArrayList<T> implements Collection<T> {
 
 	@Override
 	public void clear() {
-		throw new NotImplementedException();
+		size = 0;
 	}
 
 	@Override
