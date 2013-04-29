@@ -22,37 +22,38 @@
 
 package com.hartveld.queryable.interactive.collections;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
-
 import org.junit.Test;
 
-public interface UnmodifiableCollectionTest {
+public abstract class AbstractListTest implements ModifiableListTest {
 
-	<T> UnmodifiableCollection<T> createUnmodifiableCollectionWith(T ... elements);
-
-	@Test
-	default void testThatUnmodifiableCollectionWithThreeObjectsHasSizeThree() {
-		final UnmodifiableCollection<Object> collection = createUnmodifiableCollectionWith(new Object(), new Object(), new Object());
-
-		assertThat(
-				"Collection should have size 3",
-				collection.getSize(), is(3l)
-		);
+	@Override
+    @Test
+	public final void testThatCollectionDoesNotContainSpecificElementAfterRemove() {
+		ModifiableListTest.super.testThatCollectionDoesNotContainSpecificElementAfterRemove();
 	}
 
-	@Test
-	default void testThatUnmodifiableCollectionContainsSpecificElement() {
-		final Object o1 = new Object();
-		final Object o2 = new Object();
-		final Object o3 = new Object();
+	@Override
+    @Test
+	public final void testThatModifiableCollectionDoesNotContainElementsAfterClearAfterAddingElement() {
+		ModifiableListTest.super.testThatModifiableCollectionDoesNotContainElementsAfterClearAfterAddingElement();
+	}
 
-		final UnmodifiableCollection<Object> collection = createUnmodifiableCollectionWith(o1, o2, o3);
+	@Override
+    @Test
+	public final void testThatModifiableCollectionSizeAfterClearAfterAddingElementsIsZero() {
+		ModifiableListTest.super.testThatModifiableCollectionSizeAfterClearAfterAddingElementsIsZero();
+	}
 
-		assertThat(
-				"Collection should contain object o2",
-				collection.contains(o2), is(true)
-		);
+	@Override
+    @Test
+	public final void testThatUnmodifiableCollectionContainsSpecificElement() {
+		ModifiableListTest.super.testThatUnmodifiableCollectionContainsSpecificElement();
+	}
+
+	@Override
+    @Test
+	public final void testThatUnmodifiableCollectionWithThreeObjectsHasSizeThree() {
+		ModifiableListTest.super.testThatUnmodifiableCollectionWithThreeObjectsHasSizeThree();
 	}
 
 }

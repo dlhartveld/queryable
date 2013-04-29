@@ -23,35 +23,37 @@
 package com.hartveld.queryable.interactive.collections;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-public interface UnmodifiableCollectionTest {
+public interface UnmodifiableListTest extends UnmodifiableCollectionTest {
 
-	<T> UnmodifiableCollection<T> createUnmodifiableCollectionWith(T ... elements);
+	abstract <T> UnmodifiableList<T> createUnmodifiableListWith(T ... elements);
 
-	@Test
-	default void testThatUnmodifiableCollectionWithThreeObjectsHasSizeThree() {
-		final UnmodifiableCollection<Object> collection = createUnmodifiableCollectionWith(new Object(), new Object(), new Object());
-
-		assertThat(
-				"Collection should have size 3",
-				collection.getSize(), is(3l)
-		);
+	@Override
+	default <T> UnmodifiableCollection<T> createUnmodifiableCollectionWith(final T ... elements) {
+		return createUnmodifiableListWith(elements);
 	}
 
 	@Test
-	default void testThatUnmodifiableCollectionContainsSpecificElement() {
+	default void test() {
 		final Object o1 = new Object();
 		final Object o2 = new Object();
 		final Object o3 = new Object();
 
-		final UnmodifiableCollection<Object> collection = createUnmodifiableCollectionWith(o1, o2, o3);
+		final UnmodifiableList<Object> list = createUnmodifiableListWith(o1, o2, o3);
 
+		assertThatElementAtIndexIsSameInstance(list, 0, o1, "o1");
+		assertThatElementAtIndexIsSameInstance(list, 1, o2, "o2");
+		assertThatElementAtIndexIsSameInstance(list, 2, o3, "o3");
+	}
+
+	default <T> void assertThatElementAtIndexIsSameInstance(final UnmodifiableList<T> list, final int index, final T element, final String name) {
 		assertThat(
-				"Collection should contain object o2",
-				collection.contains(o2), is(true)
+				"List element " + index + " is not the same instance as " + name,
+				list.get(0), is(sameInstance(element))
 		);
 	}
 

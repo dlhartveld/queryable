@@ -22,10 +22,10 @@
 
 package com.hartveld.queryable.interactive.collections;
 
-public class ForwardLinkedListTest extends ModifiableCollectionTest {
+public class ForwardLinkedListTest extends AbstractListTest implements ModifiableListTest {
 
 	@Override
-	protected <T> ModifiableCollection<T> createModifiableCollection() {
+	public <T> ForwardLinkedList<T> createModifiableList() {
 		return new ForwardLinkedList<>();
 	}
 

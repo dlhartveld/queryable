@@ -27,23 +27,27 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-public abstract class ModifiableCollectionTest extends UnmodifiableCollectionTest {
+public interface ModifiableCollectionTest extends UnmodifiableCollectionTest {
 
-	protected abstract <T> ModifiableCollection<T> createModifiableCollection();
+	<T> ModifiableCollection<T> createModifiableCollection();
 
-	@Override
-	protected <T> UnmodifiableCollection<T> createUnmodifiableCollectionWith(T ... elements) {
-		final ModifiableCollection<T> collection = createModifiableCollection();
+	default <T> ModifiableCollection<T> createModifiableCollectionWith(final T ... elements) {
+		final ModifiableCollection<T> result = createModifiableCollection();
 
 		for (final T element : elements) {
-			collection.add(element);
+			result.add(element);
 		}
 
-		return collection;
+		return result;
+	}
+
+	@Override
+	default <T> ModifiableCollection<T> createUnmodifiableCollectionWith(final T ... elements) {
+		return createModifiableCollectionWith(elements);
 	}
 
 	@Test
-	public void testThatModifiableCollectionSizeAfterClearAfterAddingElementsIsZero() {
+	default void testThatModifiableCollectionSizeAfterClearAfterAddingElementsIsZero() {
 		final ModifiableCollection<Object> collection = createModifiableCollection();
 
 		collection.add(new Object());
@@ -59,22 +63,46 @@ public abstract class ModifiableCollectionTest extends UnmodifiableCollectionTes
 	}
 
 	@Test
-	public void testThatModifiableCollectionDoesNotContainElementAfterClearAfterAddingElement() {
-		final ModifiableCollection<Object> collection = createModifiableCollection();
-
+	default void testThatModifiableCollectionDoesNotContainElementsAfterClearAfterAddingElement() {
 		final Object o1 = new Object();
 		final Object o2 = new Object();
 		final Object o3 = new Object();
 
-		collection.add(o1);
-		collection.add(o2);
-		collection.add(o3);
+		final ModifiableCollection<Object> collection = createModifiableCollectionWith(o1, o2, o3);
 
 		collection.clear();
 
+		assertThatCollectionDoesNotContainElement(collection, o1, "o1");
+		assertThatCollectionDoesNotContainElement(collection, o2, "o2");
+		assertThatCollectionDoesNotContainElement(collection, o2, "o3");
+	}
+
+	@Test
+	default void testThatCollectionDoesNotContainSpecificElementAfterRemove() {
+		final Object o1 = new Object();
+		final Object o2 = new Object();
+		final Object o3 = new Object();
+
+		final ModifiableCollection<Object> collection = createModifiableCollectionWith(o1, o2, o3);
+
+		collection.remove(o2);
+
+		assertThatCollectionContainsElement(collection, o1, "o1");
+		assertThatCollectionDoesNotContainElement(collection, o2, "o2");
+		assertThatCollectionContainsElement(collection, o3, "o3");
+	}
+
+	default <T> void assertThatCollectionContainsElement(final ModifiableCollection<T> collection, final T element, final String name) {
 		assertThat(
-				"Cleared collection should not contain o2",
-				collection.contains(o2), is(false)
+				"Collection should contain element " + name,
+				collection.contains(element), is(true)
+		);
+	}
+
+	default <T> void assertThatCollectionDoesNotContainElement(final ModifiableCollection<T> collection, final T element, final String name) {
+		assertThat(
+				"Collection should not contain element " + name,
+				collection.contains(element), is(false)
 		);
 	}
 

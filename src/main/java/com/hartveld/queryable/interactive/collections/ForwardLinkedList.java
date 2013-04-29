@@ -36,9 +36,8 @@ import org.apache.commons.lang.NotImplementedException;
 
 public class ForwardLinkedList<T> implements ModifiableList<T> {
 
-	private ForwardLinkedList<T> next;
-
 	private T element;
+	private ForwardLinkedList<T> next;
 
 	public ForwardLinkedList() { }
 
@@ -97,7 +96,14 @@ public class ForwardLinkedList<T> implements ModifiableList<T> {
 
 	@Override
 	public void remove(final T element) {
-		throw new NotImplementedException();
+		checkNotNull(element, "element");
+
+		if (this.element.equals(element)) {
+			this.element = next.element;
+			next = next.next;
+		} else {
+			next.remove(element);
+		}
 	}
 
 	@Override

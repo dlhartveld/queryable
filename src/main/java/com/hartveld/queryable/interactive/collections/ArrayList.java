@@ -36,7 +36,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import org.apache.commons.lang.NotImplementedException;
 
-public class ArrayList<T> implements ModifiableCollection<T> {
+public class ArrayList<T> implements ModifiableList<T> {
 
 	private static final int DEFAULT_SIZE = 10;
 
@@ -71,6 +71,11 @@ public class ArrayList<T> implements ModifiableCollection<T> {
 	}
 
 	@Override
+	public T get(final long index) {
+		throw new NotImplementedException();
+	}
+
+	@Override
 	public boolean contains(final T value) {
 		checkNotNull(value, "value");
 
@@ -98,7 +103,23 @@ public class ArrayList<T> implements ModifiableCollection<T> {
 	}
 
 	@Override
-	public void remove(T value) {
+	public void remove(final T value) {
+		checkNotNull(value, "value");
+
+		for (int i = 0; i < size; i++) {
+			if (elements[i].equals(value)) {
+				elements[i] = null;
+
+				moveAllElementsOneForwardAfter(i);
+
+				size--;
+				break;
+			}
+		}
+	}
+
+	@Override
+	public void remove(final long index) {
 		throw new NotImplementedException();
 	}
 
@@ -152,7 +173,13 @@ public class ArrayList<T> implements ModifiableCollection<T> {
 		arraycopy(origin, 0, elements, 0, origin.length);
 	}
 
-	class ArrayListEnumerator implements Enumerator<T> {
+	private void moveAllElementsOneForwardAfter(final int index) {
+		for (int i = index + 1; i < size; i++) {
+			elements[i - 1] = elements[i];
+		}
+	}
+
+	private class ArrayListEnumerator implements Enumerator<T> {
 
 		private int index;
 

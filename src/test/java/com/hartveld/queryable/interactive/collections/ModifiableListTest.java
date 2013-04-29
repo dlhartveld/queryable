@@ -22,37 +22,29 @@
 
 package com.hartveld.queryable.interactive.collections;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+public interface ModifiableListTest extends ModifiableCollectionTest, UnmodifiableListTest {
 
-import org.junit.Test;
+	<T> ModifiableList<T> createModifiableList();
 
-public interface UnmodifiableCollectionTest {
+	@Override
+	default <T> ModifiableList<T> createUnmodifiableListWith(final T ... elements) {
+		final ModifiableList<T> list = createModifiableList();
 
-	<T> UnmodifiableCollection<T> createUnmodifiableCollectionWith(T ... elements);
+		for (final T element : elements) {
+			list.add(element);
+		}
 
-	@Test
-	default void testThatUnmodifiableCollectionWithThreeObjectsHasSizeThree() {
-		final UnmodifiableCollection<Object> collection = createUnmodifiableCollectionWith(new Object(), new Object(), new Object());
-
-		assertThat(
-				"Collection should have size 3",
-				collection.getSize(), is(3l)
-		);
+		return list;
 	}
 
-	@Test
-	default void testThatUnmodifiableCollectionContainsSpecificElement() {
-		final Object o1 = new Object();
-		final Object o2 = new Object();
-		final Object o3 = new Object();
+	@Override
+	default <T> ModifiableList<T> createModifiableCollection() {
+		return createModifiableList();
+	}
 
-		final UnmodifiableCollection<Object> collection = createUnmodifiableCollectionWith(o1, o2, o3);
-
-		assertThat(
-				"Collection should contain object o2",
-				collection.contains(o2), is(true)
-		);
+	@Override
+	default <T> ModifiableList<T> createUnmodifiableCollectionWith(final T ... elements) {
+		return createUnmodifiableListWith(elements);
 	}
 
 }

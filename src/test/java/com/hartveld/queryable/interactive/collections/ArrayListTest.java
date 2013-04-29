@@ -22,10 +22,10 @@
 
 package com.hartveld.queryable.interactive.collections;
 
-public class ArrayListTest extends ModifiableCollectionTest {
+public class ArrayListTest extends AbstractListTest implements ModifiableListTest {
 
 	@Override
-	protected <T> ModifiableCollection<T> createModifiableCollection() {
+	public <T> ArrayList<T> createModifiableList() {
 		return new ArrayList<>();
 	}
 
