@@ -23,24 +23,22 @@
 package com.hartveld.queryable.interactive.collections;
 
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
 
-import com.hartveld.queryable.interactive.Enumerator;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ArrayListTest {
+public class ArrayListUnmodifiableCollectionTest {
 
 	private ArrayList<Object> list;
 
 	@Before
 	public void setUp() {
-		this.list = new ArrayList<>();
+		list = new ArrayList<>();
 	}
 
 	@Test
-	public void testThatArrayListWithThreeAddedObjectsHasSizeThree() {
+	public void testThatArrayListWithThreeObjectsHasSizeThree() {
 		this.list.add(new Object());
 		this.list.add(new Object());
 		this.list.add(new Object());
@@ -60,63 +58,6 @@ public class ArrayListTest {
 		assertThat(
 				"List should contain added object o",
 				list.contains(o), is(true)
-		);
-	};
-
-	@Test
-	public void testThatArrayListEnumeratorReturnsJustAddedObjectsInOrder() {
-		final Object [] o = new Object[3];
-
-		o[0] = new Object();
-		o[1] = new Object();
-		o[2] = new Object();
-
-		this.list.add(o[0]);
-		this.list.add(o[1]);
-		this.list.add(o[2]);
-
-		final Enumerator<Object> enumerator = this.list.iterator();
-		for (int i = 0; i < 3; i++) {
-			assertThat(
-					"Enumerator should have next value ready",
-					enumerator.hasNext(), is(true)
-			);
-
-			final Object current = enumerator.next();
-			assertThat(current, is(sameInstance(o[i])));
-		}
-
-		assertThat(
-				"Enumerator should not have more values",
-				enumerator.hasNext(), is(false)
-		);
-	}
-
-	@Test
-	public void testThatArrayListSizeAfterClearAfterAddingElementsIsZero() {
-		list.add(new Object());
-		list.add(new Object());
-		list.add(new Object());
-
-		list.clear();
-
-		assertThat(
-				"Cleared list should have zero size",
-				list.getSize(), is(0l)
-		);
-	}
-
-	@Test
-	public void testThatArrayListDoesNotContainElementAfterClearAfterAddingElement() {
-		final Object o = new Object();
-
-		list.add(o);
-
-		list.clear();
-
-		assertThat(
-				"Cleared list should not contain value o",
-				list.contains(o), is(false)
 		);
 	}
 

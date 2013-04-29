@@ -55,7 +55,9 @@ public class ArrayList<T> implements ModifiableCollection<T> {
 		this.elements = (T[]) new Object[values.length < DEFAULT_SIZE ? DEFAULT_SIZE : values.length];
 		this.size = values.length;
 
-		arraycopy(values, 0, this.elements, 0, values.length);
+		if (values.length != 0) {
+			arraycopy(values, 0, this.elements, 0, values.length);
+		}
 	}
 
 	@Override
