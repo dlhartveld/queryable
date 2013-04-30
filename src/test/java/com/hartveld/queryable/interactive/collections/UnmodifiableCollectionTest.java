@@ -35,10 +35,7 @@ public interface UnmodifiableCollectionTest {
 	default void testThatUnmodifiableCollectionWithThreeObjectsHasSizeThree() {
 		final UnmodifiableCollection<Object> collection = createUnmodifiableCollectionWith(new Object(), new Object(), new Object());
 
-		assertThat(
-				"Collection should have size 3",
-				collection.getSize(), is(3)
-		);
+		assertThatCollectionHasSize(collection, 3);
 	}
 
 	@Test
@@ -49,9 +46,29 @@ public interface UnmodifiableCollectionTest {
 
 		final UnmodifiableCollection<Object> collection = createUnmodifiableCollectionWith(o1, o2, o3);
 
+		assertThatCollectionContainsElement(collection, o1, "o1");
+		assertThatCollectionContainsElement(collection, o2, "o2");
+		assertThatCollectionContainsElement(collection, o3, "o3");
+	}
+
+	default <T> void assertThatCollectionHasSize(final UnmodifiableCollection<T> collection, final int size) {
 		assertThat(
-				"Collection should contain object o2",
-				collection.contains(o2), is(true)
+				"Collection should have size " + size,
+				collection.getSize(), is(size)
+		);
+	}
+
+	default <T> void assertThatCollectionContainsElement(final UnmodifiableCollection<T> collection, final T element, final String name) {
+		assertThat(
+				"Collection should contain element " + name,
+				collection.contains(element), is(true)
+		);
+	}
+
+	default <T> void assertThatCollectionDoesNotContainElement(final UnmodifiableCollection<T> collection, final T element, final String name) {
+		assertThat(
+				"Collection should not contain element " + name,
+				collection.contains(element), is(false)
 		);
 	}
 

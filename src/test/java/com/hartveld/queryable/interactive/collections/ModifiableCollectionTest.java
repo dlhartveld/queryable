@@ -22,9 +22,6 @@
 
 package com.hartveld.queryable.interactive.collections;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
-
 import org.junit.Test;
 
 public interface ModifiableCollectionTest extends UnmodifiableCollectionTest {
@@ -56,10 +53,7 @@ public interface ModifiableCollectionTest extends UnmodifiableCollectionTest {
 
 		collection.clear();
 
-		assertThat(
-				"Cleared collection should have zero size",
-				collection.getSize(), is(0)
-		);
+		assertThatCollectionHasSize(collection, 0);
 	}
 
 	@Test
@@ -90,20 +84,6 @@ public interface ModifiableCollectionTest extends UnmodifiableCollectionTest {
 		assertThatCollectionContainsElement(collection, o1, "o1");
 		assertThatCollectionDoesNotContainElement(collection, o2, "o2");
 		assertThatCollectionContainsElement(collection, o3, "o3");
-	}
-
-	default <T> void assertThatCollectionContainsElement(final ModifiableCollection<T> collection, final T element, final String name) {
-		assertThat(
-				"Collection should contain element " + name,
-				collection.contains(element), is(true)
-		);
-	}
-
-	default <T> void assertThatCollectionDoesNotContainElement(final ModifiableCollection<T> collection, final T element, final String name) {
-		assertThat(
-				"Collection should not contain element " + name,
-				collection.contains(element), is(false)
-		);
 	}
 
 }

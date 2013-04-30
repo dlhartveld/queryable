@@ -22,6 +22,7 @@
 
 package com.hartveld.queryable.interactive.collections;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.hartveld.queryable.Monad;
@@ -33,8 +34,12 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import org.apache.commons.lang.NotImplementedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ForwardLinkedList<T> implements ModifiableList<T> {
+
+	private static final Logger LOG = LoggerFactory.getLogger(ForwardLinkedList.class);
 
 	private T element;
 	private ForwardLinkedList<T> next;
@@ -49,6 +54,7 @@ public class ForwardLinkedList<T> implements ModifiableList<T> {
 
 	@Override
 	public int getSize() {
+		LOG.trace("getSize()");
 		if (next != null) {
 			return 1 + next.getSize();
 		} else if (element != null) {
@@ -60,6 +66,7 @@ public class ForwardLinkedList<T> implements ModifiableList<T> {
 
 	@Override
 	public T get(final int index) {
+		LOG.trace("get(): {}", index);
 		if (index > 0) {
 			if (next != null) {
 				return next.get(index - 1);
@@ -77,6 +84,8 @@ public class ForwardLinkedList<T> implements ModifiableList<T> {
 
 	@Override
 	public boolean contains(final T element) {
+		LOG.trace("contains(): {}", element);
+
 		checkNotNull(element, "element");
 
 		if (element.equals(this.element)) {
@@ -90,6 +99,8 @@ public class ForwardLinkedList<T> implements ModifiableList<T> {
 
 	@Override
 	public void add(final T element) {
+		LOG.trace("add(): {}", element);
+
 		checkNotNull(element, "element");
 
 		if (this.element == null) {
@@ -103,16 +114,26 @@ public class ForwardLinkedList<T> implements ModifiableList<T> {
 
 	@Override
 	public void remove(final int index) {
-		throw new NotImplementedException();
+		LOG.trace("remove(): {}", index);
+
+		checkArgument(index >= 0, "index < 0");
+		checkArgument(index < getSize(), "index >= size");
+
+		if (index == 0) {
+			removeHead();
+		} else {
+			next.remove(index - 1);
+		}
 	}
 
 	@Override
 	public void remove(final T element) {
+		LOG.trace("remove(): {}", element);
+
 		checkNotNull(element, "element");
 
 		if (this.element.equals(element)) {
-			this.element = next.element;
-			next = next.next;
+			removeHead();
 		} else {
 			next.remove(element);
 		}
@@ -120,11 +141,23 @@ public class ForwardLinkedList<T> implements ModifiableList<T> {
 
 	@Override
 	public void clear() {
+		LOG.trace("clear()");
+
 		element = null;
 
 		if (next != null) {
 			next.clear();
 			next = null;
+		}
+	}
+
+	private void removeHead() {
+		LOG.trace("removeHead()");
+		if (next != null) {
+			element = next.element;
+			next = next.next;
+		} else {
+			element = null;
 		}
 	}
 

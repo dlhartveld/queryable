@@ -58,8 +58,32 @@ public abstract class AbstractListTest implements ModifiableListTest {
 
 	@Override
 	@Test
-	public void testThatGetReturnsCorrectElements() {
-		ModifiableListTest.super.testThatGetReturnsCorrectElements();
+	public void testThatGetReturnsCorrectElementsInUnmodifiableList() {
+		ModifiableListTest.super.testThatGetReturnsCorrectElementsInUnmodifiableList();
+	}
+
+	@Override
+	@Test
+	public void testThatSizeOfModifiableListAfterIndexedRemovalOfOneOfThreeElementsIsTwo() {
+		ModifiableListTest.super.testThatSizeOfModifiableListAfterIndexedRemovalOfOneOfThreeElementsIsTwo();
+	}
+
+	@Override
+	@Test
+	public void testThatModifiableListDoesNotContainElementAfterIndexedRemoval() {
+		ModifiableListTest.super.testThatModifiableListDoesNotContainElementAfterIndexedRemoval();
+	}
+
+	@Override
+	@Test
+	public void testThatModifiableListContainsOtherTwoElementsAfterIndexedRemovalOfThird() {
+		ModifiableListTest.super.testThatModifiableListContainsOtherTwoElementsAfterIndexedRemovalOfThird();
+	}
+
+	@Override
+	@Test
+	public void testThatIndexOfThirdElementInModifiableListIsDecrementedAfterIndexedRemovalOfSecondElement() {
+		ModifiableListTest.super.testThatIndexOfThirdElementInModifiableListIsDecrementedAfterIndexedRemovalOfSecondElement();
 	}
 
 }

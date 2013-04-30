@@ -22,12 +22,14 @@
 
 package com.hartveld.queryable.interactive.collections;
 
+
+import org.junit.Test;
+
 public interface ModifiableListTest extends ModifiableCollectionTest, UnmodifiableListTest {
 
 	<T> ModifiableList<T> createModifiableList();
 
-	@Override
-	default <T> ModifiableList<T> createUnmodifiableListWith(final T ... elements) {
+	default <T> ModifiableList<T> createModifiableListWith(final T ... elements) {
 		final ModifiableList<T> list = createModifiableList();
 
 		for (final T element : elements) {
@@ -38,6 +40,11 @@ public interface ModifiableListTest extends ModifiableCollectionTest, Unmodifiab
 	}
 
 	@Override
+	default <T> ModifiableList<T> createUnmodifiableListWith(final T ... elements) {
+		return createModifiableListWith(elements);
+	}
+
+	@Override
 	default <T> ModifiableList<T> createModifiableCollection() {
 		return createModifiableList();
 	}
@@ -45,6 +52,59 @@ public interface ModifiableListTest extends ModifiableCollectionTest, Unmodifiab
 	@Override
 	default <T> ModifiableList<T> createUnmodifiableCollectionWith(final T ... elements) {
 		return createUnmodifiableListWith(elements);
+	}
+
+	@Test
+	default void testThatSizeOfModifiableListAfterIndexedRemovalOfOneOfThreeElementsIsTwo() {
+		final Object o1 = new Object();
+		final Object o2 = new Object();
+		final Object o3 = new Object();
+
+		final ModifiableList<Object> list = createModifiableListWith(o1, o2, o3);
+
+		list.remove(2);
+
+		assertThatCollectionHasSize(list, 2);
+	}
+
+	@Test
+	default void testThatModifiableListDoesNotContainElementAfterIndexedRemoval() {
+		final Object o1 = new Object();
+		final Object o2 = new Object();
+		final Object o3 = new Object();
+
+		final ModifiableList<Object> list = createModifiableListWith(o1, o2, o3);
+
+		list.remove(1);
+
+		assertThatCollectionDoesNotContainElement(list, o2, "o2");
+	}
+
+	@Test
+	default void testThatModifiableListContainsOtherTwoElementsAfterIndexedRemovalOfThird() {
+		final Object o1 = new Object();
+		final Object o2 = new Object();
+		final Object o3 = new Object();
+
+		final ModifiableList<Object> list = createModifiableListWith(o1, o2, o3);
+
+		list.remove(1);
+
+		assertThatCollectionContainsElement(list, o1, "o1");
+		assertThatCollectionContainsElement(list, o3, "o3");
+	}
+
+	@Test
+	default void testThatIndexOfThirdElementInModifiableListIsDecrementedAfterIndexedRemovalOfSecondElement() {
+		final Object o1 = new Object();
+		final Object o2 = new Object();
+		final Object o3 = new Object();
+
+		final ModifiableList<Object> list = createModifiableListWith(o1, o2, o3);
+
+		list.remove(1);
+
+		assertThatElementAtIndexIsSameInstance(list, 1, o3, "o3");
 	}
 
 }

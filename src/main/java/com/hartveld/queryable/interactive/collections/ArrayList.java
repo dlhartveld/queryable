@@ -36,15 +36,19 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import org.apache.commons.lang.NotImplementedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ArrayList<T> implements ModifiableList<T> {
 
+	private static final Logger LOG = LoggerFactory.getLogger(ArrayList.class);
+
 	private static final int DEFAULT_SIZE = 10;
 
-	public static <T> ArrayList<T> of(final T... values) {
-		checkNotNull(values, "values");
+	public static <T> ArrayList<T> of(final T... elements) {
+		checkNotNull(elements, "elements");
 
-		return new ArrayList<>(values);
+		return new ArrayList<>(elements);
 	}
 
 	private T[] elements;
@@ -73,17 +77,20 @@ public class ArrayList<T> implements ModifiableList<T> {
 
 	@Override
 	public T get(final int index) {
+		LOG.trace("get(): {}", index);
 		checkArgument(index < size, "index >= size");
 
 		return elements[index];
 	}
 
 	@Override
-	public boolean contains(final T value) {
-		checkNotNull(value, "value");
+	public boolean contains(final T element) {
+		LOG.trace("contains(): {}", element);
+
+		checkNotNull(element, "value");
 
 		for (int i = 0; i < size; i++) {
-			if (elements[i].equals(value)) {
+			if (elements[i].equals(element)) {
 				return true;
 			}
 		}
@@ -92,8 +99,10 @@ public class ArrayList<T> implements ModifiableList<T> {
 	}
 
 	@Override
-	public void add(final T value) {
-		checkNotNull(value, "value");
+	public void add(final T element) {
+		LOG.trace("add(): {}", element);
+
+		checkNotNull(element, "element");
 
 		if (size > elements.length) {
 			throw new IllegalStateException("BUG: size > elements.length");
@@ -101,21 +110,19 @@ public class ArrayList<T> implements ModifiableList<T> {
 			resize();
 		}
 
-		elements[size] = value;
+		elements[size] = element;
 		size++;
 	}
 
 	@Override
-	public void remove(final T value) {
-		checkNotNull(value, "value");
+	public void remove(final T element) {
+		LOG.trace("remove(): {}", element);
+
+		checkNotNull(element, "element");
 
 		for (int i = 0; i < size; i++) {
-			if (elements[i].equals(value)) {
-				elements[i] = null;
-
-				moveAllElementsOneForwardAfter(i);
-
-				size--;
+			if (elements[i].equals(element)) {
+				remove(i);
 				break;
 			}
 		}
@@ -123,11 +130,19 @@ public class ArrayList<T> implements ModifiableList<T> {
 
 	@Override
 	public void remove(final int index) {
-		throw new NotImplementedException();
+		LOG.trace("remove(): {}", index);
+
+		checkArgument(index >= 0, "index < 0");
+		checkArgument(index < size, "index >= size");
+
+		elements[index] = null;
+		moveAllElementsOneForwardAfter(index);
+		size--;
 	}
 
 	@Override
 	public void clear() {
+		LOG.trace("clear()");
 		size = 0;
 	}
 
@@ -169,6 +184,8 @@ public class ArrayList<T> implements ModifiableList<T> {
 	}
 
 	private void resize() {
+		LOG.trace("resize()");
+
 		final T[] origin = elements;
 
 		elements = (T[]) new Object[origin.length * 2];
@@ -177,6 +194,8 @@ public class ArrayList<T> implements ModifiableList<T> {
 	}
 
 	private void moveAllElementsOneForwardAfter(final int index) {
+		LOG.trace("moveAllElementsOneForwardAfter(): {}", index);
+
 		for (int i = index + 1; i < size; i++) {
 			elements[i - 1] = elements[i];
 		}

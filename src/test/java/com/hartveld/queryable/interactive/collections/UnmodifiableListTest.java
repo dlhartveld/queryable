@@ -38,7 +38,7 @@ public interface UnmodifiableListTest extends UnmodifiableCollectionTest {
 	}
 
 	@Test
-	default void testThatGetReturnsCorrectElements() {
+	default void testThatGetReturnsCorrectElementsInUnmodifiableList() {
 		final Object o1 = new Object();
 		final Object o2 = new Object();
 		final Object o3 = new Object();
