@@ -22,31 +22,9 @@
 
 package com.hartveld.queryable.interactive;
 
-import com.hartveld.queryable.Monad;
-import com.hartveld.queryable.Queryable;
-import java.util.function.BinaryOperator;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
-
-public interface Enumerable<T> extends Queryable<T>, Iterable<T> {
+public interface Enumerable<T> extends Iterable<T> {
 
 	@Override
 	Enumerator<T> iterator();
-
-	@Override
-	<R> Enumerable<R> flatMap(Function<? super T, ? extends Monad<? extends R>> mapper);
-
-	@Override
-	<R> Enumerable<R> map(Function<? super T, ? extends R> mapper);
-
-	@Override
-	Enumerable<T> reduce(T identity, BinaryOperator<T> accumulator);
-
-	@Override
-	Enumerable<T> filter(Predicate<? super T> predicate);
-
-	@Override
-	Enumerable<T> peek(Consumer<? super T> consumer);
 
 }

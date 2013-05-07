@@ -25,14 +25,7 @@ package com.hartveld.queryable.interactive.collections;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.hartveld.queryable.Monad;
-import com.hartveld.queryable.interactive.Enumerable;
 import com.hartveld.queryable.interactive.Enumerator;
-import com.hartveld.queryable.reactive.Observable;
-import java.util.function.BinaryOperator;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
 import org.apache.commons.lang.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -163,41 +156,6 @@ public class ForwardLinkedList<T> implements ModifiableList<T> {
 
 	@Override
 	public Enumerator<T> iterator() {
-		throw new NotImplementedException();
-	}
-
-	@Override
-	public <R> Enumerable<R> flatMap(Function<? super T, ? extends Monad<? extends R>> mapper) {
-		throw new NotImplementedException();
-	}
-
-	@Override
-	public <R> Enumerable<R> map(Function<? super T, ? extends R> mapper) {
-		throw new NotImplementedException();
-	}
-
-	@Override
-	public Enumerable<T> reduce(T identity, BinaryOperator<T> accumulator) {
-		throw new NotImplementedException();
-	}
-
-	@Override
-	public Enumerable<T> filter(Predicate<? super T> predicate) {
-		throw new NotImplementedException();
-	}
-
-	@Override
-	public Enumerable<T> peek(Consumer<? super T> consumer) {
-		throw new NotImplementedException();
-	}
-
-	@Override
-	public Enumerable<T> asEnumerable() {
-		return this;
-	}
-
-	@Override
-	public Observable<T> asObservable() {
 		throw new NotImplementedException();
 	}
 

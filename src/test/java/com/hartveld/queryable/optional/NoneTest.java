@@ -27,7 +27,7 @@ import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
-import com.hartveld.queryable.interactive.Enumerable;
+import com.hartveld.queryable.interactive.Enumerator;
 import com.hartveld.queryable.reactive.Observable;
 import java.util.NoSuchElementException;
 import org.junit.Before;
@@ -95,7 +95,7 @@ public class NoneTest {
 
 	@Test
 	public void testThatAsEnumerableReturnsEmptyEnumerable() {
-		final Enumerable<Object> enumerable = none.asEnumerable();
+		final Enumerator<Object> enumerable = none.asEnumerator();
 
 		for (final Object o : enumerable) {
 			fail("Enumerable should have been empty, but it is not");

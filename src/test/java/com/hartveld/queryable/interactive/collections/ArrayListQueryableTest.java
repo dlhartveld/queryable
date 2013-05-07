@@ -22,14 +22,8 @@
 
 package com.hartveld.queryable.interactive.collections;
 
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.sameInstance;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
-import com.hartveld.queryable.interactive.Enumerable;
-import com.hartveld.queryable.interactive.Enumerables;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -43,28 +37,9 @@ public class ArrayListQueryableTest {
 	}
 
 	@Test
-	public void testThatSizeOfNewArrayListIsZero() {
+	public void testThatLoopingOverNewArrayListDoesNotExecuteAnyIterations() {
 		for (final Object o : this.list) {
 			fail("Newly instantiated ArrayList contained object: " + o);
-		}
-	}
-
-	@Test
-	public void testThatFlatMapOnEmptyArrayListReturnsNewList() {
-		final Enumerable<Object> result = this.list.flatMap(x -> Enumerables.empty());
-
-		assertThat(
-				"flatMap should return new instance",
-				result, is(not(sameInstance(list)))
-		);
-	}
-
-	@Test
-	public void testThatFlatMapOnEmptyArrayListReturnsEmptyList() {
-		final Enumerable<Object> result = this.list.flatMap(x -> Enumerables.empty());
-
-		for (final Object o : result) {
-			fail("Result returned by flatMap on empty list contained object: " + o);
 		}
 	}
 

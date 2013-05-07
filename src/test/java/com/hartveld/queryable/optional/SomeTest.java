@@ -26,8 +26,8 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
 
-import com.hartveld.queryable.interactive.Enumerable;
 import com.hartveld.queryable.interactive.Enumerables;
+import com.hartveld.queryable.interactive.Enumerator;
 import com.hartveld.queryable.reactive.Observable;
 import java.util.NoSuchElementException;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -77,7 +77,7 @@ public class SomeTest {
 		boolean exceptionWasThrown = false;
 
 		try {
-			some.flatMap(x -> Enumerables.empty());
+			some.flatMap(x -> Enumerables.empty().iterator());
 		} catch (final IllegalArgumentException e) {
 			exceptionWasThrown = true;
 		}
@@ -156,7 +156,7 @@ public class SomeTest {
 
 	@Test
 	public void testThatAsEnumerableReturnsEnumerableWithSingleElement() {
-		final Enumerable<Object> enumerable = some.asEnumerable();
+		final Enumerator<Object> enumerable = some.asEnumerator();
 
 		int count = 0;
 

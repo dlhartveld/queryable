@@ -25,8 +25,8 @@ package com.hartveld.queryable.optional;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.hartveld.queryable.Monad;
-import com.hartveld.queryable.interactive.Enumerable;
 import com.hartveld.queryable.interactive.Enumerables;
+import com.hartveld.queryable.interactive.Enumerator;
 import com.hartveld.queryable.reactive.Observable;
 import com.hartveld.queryable.reactive.Observables;
 import java.util.NoSuchElementException;
@@ -83,8 +83,8 @@ public class None<T> implements Optional<T> {
 	}
 
 	@Override
-	public Enumerable<T> asEnumerable() {
-		return Enumerables.empty();
+	public Enumerator<T> asEnumerator() {
+		return Enumerables.<T>empty().iterator();
 	}
 
 	@Override

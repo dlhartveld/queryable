@@ -26,8 +26,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.hartveld.queryable.reactive.autocloseables.AutoCloseables.noop;
 
 import com.hartveld.queryable.Monad;
-import com.hartveld.queryable.interactive.Enumerable;
 import com.hartveld.queryable.interactive.Enumerables;
+import com.hartveld.queryable.interactive.Enumerator;
 import com.hartveld.queryable.reactive.Observable;
 import com.hartveld.queryable.reactive.Observables;
 import java.util.function.BinaryOperator;
@@ -74,8 +74,8 @@ public class EmptyObservable<T> implements Subject<T> {
 	}
 
 	@Override
-	public Enumerable<T> asEnumerable() {
-		return Enumerables.empty();
+	public Enumerator<T> asEnumerator() {
+		return Enumerables.<T>empty().iterator();
 	}
 
 	@Override

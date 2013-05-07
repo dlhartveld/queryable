@@ -26,7 +26,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.hartveld.queryable.reactive.Observers.observerWith;
 
 import com.hartveld.queryable.Monad;
-import com.hartveld.queryable.interactive.Enumerable;
+import com.hartveld.queryable.interactive.Enumerator;
 import com.hartveld.queryable.reactive.Observable;
 import com.hartveld.queryable.reactive.Observer;
 import java.util.function.BinaryOperator;
@@ -97,7 +97,7 @@ abstract class AbstractSubject<T> implements Subject<T> {
 	}
 
 	@Override
-	public Enumerable<T> asEnumerable() {
+	public Enumerator<T> asEnumerator() {
 		throw new NotImplementedException();
 	}
 

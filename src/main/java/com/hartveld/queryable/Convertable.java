@@ -22,12 +22,12 @@
 
 package com.hartveld.queryable;
 
-import com.hartveld.queryable.interactive.Enumerable;
+import com.hartveld.queryable.interactive.Enumerator;
 import com.hartveld.queryable.reactive.Observable;
 
 public interface Convertable<T> {
 
-	Enumerable<T> asEnumerable();
+	Enumerator<T> asEnumerator();
 	Observable<T> asObservable();
 
 }

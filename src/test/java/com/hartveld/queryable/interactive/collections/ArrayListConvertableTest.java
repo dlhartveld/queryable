@@ -26,7 +26,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
 
-import com.hartveld.queryable.interactive.Enumerable;
+import com.hartveld.queryable.interactive.Enumerator;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -40,12 +40,13 @@ public class ArrayListConvertableTest {
 	}
 
 	@Test
-	public void testThatAsEnumerableReturnsThisInstance() {
-		final Enumerable<Object> result = this.list.asEnumerable();
+	public void testThatAsEnumeratorReturnsThisInstance() {
+		final Enumerator<Object> source = this.list.iterator();
+		final Enumerator<Object> result = source.asEnumerator();
 
 		assertThat(
-				"asEnumerable did not return 'this' instance",
-				result, is(sameInstance(this.list))
+				"asEnumerable did not return 'source' instance",
+				result, is(sameInstance(source))
 		);
 	}
 

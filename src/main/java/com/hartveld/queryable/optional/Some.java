@@ -27,8 +27,8 @@ import static com.hartveld.queryable.optional.Optional.none;
 import static com.hartveld.queryable.optional.Optional.some;
 
 import com.hartveld.queryable.Monad;
-import com.hartveld.queryable.interactive.Enumerable;
 import com.hartveld.queryable.interactive.Enumerables;
+import com.hartveld.queryable.interactive.Enumerator;
 import com.hartveld.queryable.reactive.Observable;
 import com.hartveld.queryable.reactive.Observables;
 import java.util.function.BinaryOperator;
@@ -107,8 +107,8 @@ class Some<T> implements Optional<T> {
 	}
 
 	@Override
-	public Enumerable<T> asEnumerable() {
-		return Enumerables.single(this.value);
+	public Enumerator<T> asEnumerator() {
+		return Enumerables.single(this.value).iterator();
 	}
 
 	@Override

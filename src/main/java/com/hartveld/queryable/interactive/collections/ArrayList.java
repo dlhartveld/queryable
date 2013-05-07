@@ -27,7 +27,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static java.lang.System.arraycopy;
 
 import com.hartveld.queryable.Monad;
-import com.hartveld.queryable.interactive.Enumerable;
 import com.hartveld.queryable.interactive.Enumerator;
 import com.hartveld.queryable.reactive.Observable;
 import java.util.NoSuchElementException;
@@ -146,43 +145,6 @@ public class ArrayList<T> implements ModifiableList<T> {
 		size = 0;
 	}
 
-	@Override
-	public <R> Enumerable<R> flatMap(final Function<? super T, ? extends Monad<? extends R>> mapper) {
-		checkNotNull(mapper, "mapper");
-
-		return new ArrayList<>();
-	}
-
-	@Override
-	public <R> Enumerable<R> map(Function<? super T, ? extends R> mapper) {
-		throw new NotImplementedException();
-	}
-
-	@Override
-	public Enumerable<T> reduce(T identity, BinaryOperator<T> accumulator) {
-		throw new NotImplementedException();
-	}
-
-	@Override
-	public Enumerable<T> filter(Predicate<? super T> predicate) {
-		throw new NotImplementedException();
-	}
-
-	@Override
-	public Enumerable<T> peek(Consumer<? super T> consumer) {
-		throw new NotImplementedException();
-	}
-
-	@Override
-	public Enumerable<T> asEnumerable() {
-		return this;
-	}
-
-	@Override
-	public Observable<T> asObservable() {
-		throw new NotImplementedException();
-	}
-
 	private void resize() {
 		LOG.trace("resize()");
 
@@ -221,6 +183,46 @@ public class ArrayList<T> implements ModifiableList<T> {
 			} else {
 				throw new NoSuchElementException("Source ArrayList has no more elements");
 			}
+		}
+
+		@Override
+		public <R> Enumerator<R> flatMap(Function<? super T, ? extends Monad<? extends R>> mapper) {
+			throw new NotImplementedException();
+		}
+
+		@Override
+		public <R> Enumerator<R> map(Function<? super T, ? extends R> mapper) {
+			throw new NotImplementedException();
+		}
+
+		@Override
+		public Enumerator<T> reduce(T identity, BinaryOperator<T> accumulator) {
+			throw new NotImplementedException();
+		}
+
+		@Override
+		public Enumerator<T> filter(Predicate<? super T> predicate) {
+			throw new NotImplementedException();
+		}
+
+		@Override
+		public Enumerator<T> peek(Consumer<? super T> consumer) {
+			throw new NotImplementedException();
+		}
+
+		@Override
+		public Enumerator<T> asEnumerator() {
+			return this;
+		}
+
+		@Override
+		public Observable<T> asObservable() {
+			throw new NotImplementedException();
+		}
+
+		@Override
+		public Enumerator<T> iterator() {
+			return this;
 		}
 
 	}
